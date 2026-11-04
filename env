@@ -1,0 +1,33 @@
+# ================================================================
+# TerasMatrix — Environment Configuration
+# ================================================================
+# Salin file ini dan isi nilainya sesuai environment kamu.
+# JANGAN commit file .env yang sudah berisi nilai asli ke Git!
+# ================================================================
+
+# ── Database (InfinityFree / MySQL) ─────────────────────────────
+DB_HOST=sql308.infinityfree.com
+DB_PORT=3306
+DB_NAME=if0_41977276_nexaumkm
+DB_USER=if0_41977276
+DB_PASS=YOUR_DB_PASSWORD_HERE
+DB_CHARSET=utf8mb4
+
+# ── App Settings ─────────────────────────────────────────────────
+# production | development
+APP_ENV=production
+APP_DEBUG=false
+
+# ── CORS ─────────────────────────────────────────────────────────
+# URL frontend kamu (tanpa trailing slash)
+CORS_ORIGIN=http://umkmnexa.infinityfreeapp.com
+
+# ── JWT Authentication ───────────────────────────────────────────
+# Ganti dengan string acak yang panjang dan aman (min. 32 karakter)
+JWT_SECRET=YOUR_RANDOM_JWT_SECRET_KEY_HERE
+# Durasi token dalam detik (default: 28800 = 8 jam)
+JWT_EXPIRE=28800
+
+# ── Pagination ───────────────────────────────────────────────────
+PAGE_LIMIT_DEFAULT=15
+PAGE_LIMIT_MAX=100
