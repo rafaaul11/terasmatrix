@@ -1,15 +1,13 @@
 <?php
-define('DB_HOST', getenv('MYSQLHOST') ?: getenv('DB_HOST') ?: 'localhost');
-define('DB_PORT', getenv('MYSQLPORT') ?: getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('MYSQLDATABASE') ?: getenv('DB_NAME') ?: 'terasmatrix');
-define('DB_USER', getenv('MYSQLUSER') ?: getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('MYSQLPASSWORD') ?: getenv('DB_PASS') ?: '');
-define('DB_CHARSET', 'utf8mb4');
+$host     = getenv('MYSQLHOST') ?: 'localhost';
+$user     = getenv('MYSQLUSER') ?: 'root';
+$password = getenv('MYSQLPASSWORD') ?: '';
+$database = getenv('MYSQLDATABASE') ?: 'terasmatrix';
+$port     = getenv('MYSQLPORT') ?: '3306';
 
-define('APP_ENV', getenv('APP_ENV') ?: 'development');
-define('APP_DEBUG', APP_ENV === 'development');
-define('CORS_ORIGIN', getenv('CORS_ORIGIN') ?: '*');
-define('JWT_SECRET', getenv('JWT_SECRET') ?: 'TerasMatrix_JWT_Secret_Key_2026_XYZ');
-define('JWT_EXPIRE', 60 * 60 * 8);
-define('PAGE_LIMIT_DEFAULT', 15);
-define('PAGE_LIMIT_MAX', 100);
+$conn = new mysqli($host, $user, $password, $database, $port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
