@@ -1,0 +1,9 @@
+.git
+node_modules
+backend
+Frontend
+*.md
+*.pdf
+package*.json
+pdfgen.js
+env

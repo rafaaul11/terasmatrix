@@ -4,7 +4,21 @@ let currentAuthView = 'landing';
 let _regTemp        = {};
 
 // ── View switcher ──────────────────────────────────────────────
-function showView(view) {
+async function showView(view) {
+  if (view === 'logout') {
+    try {
+      await AuthAPI.logout();
+    } catch (error) {
+      showToast(error.message || 'Gagal keluar dari akun.', 'error');
+      return;
+    }
+    sessionStorage.removeItem('nexa_page');
+    if (typeof AppState !== 'undefined') { AppState.currentUser = null; AppState.chartsInit = {}; }
+    selectedRole = 'owner';
+    showView('landing');
+    return;
+  }
+
   const previousView = sessionStorage.getItem('nexa_view');
   currentAuthView = view;
   ['landing-page','auth-page','dashboard-app'].forEach(id => {
@@ -23,12 +37,6 @@ function showView(view) {
     if (previousView !== 'dashboard') sessionStorage.setItem('nexa_page', 'home');
     document.getElementById('dashboard-app')?.classList.add('active');
     initDashboard();
-  } else if (view === 'logout') {
-    AuthAPI.logout();
-    sessionStorage.removeItem('nexa_page');
-    if (typeof AppState !== 'undefined') { AppState.currentUser = null; AppState.chartsInit = {}; }
-    selectedRole = 'owner';
-    showView('landing');
   }
 }
 
@@ -53,7 +61,7 @@ function roleCardsHTML() {
             <path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/>
           </svg>
         </div>
-        <div class="role-card-title">Owner</div>
+        <div class="role-card-title">Pemilik UMKM</div>
         <div class="role-card-desc">Pemilik usaha</div>
       </div>
       <div class="role-card ${e?'selected':''}" onclick="selectRole('employee')">
@@ -73,7 +81,7 @@ function renderLoginForm() {
   return `
     <div class="auth-form-wrap">
       <h1 class="auth-title">Selamat Datang Kembali</h1>
-      <p class="auth-subtitle">Masuk untuk melihat dasbor dan laporan klinis Anda.</p>
+      <p class="auth-subtitle">Masuk untuk melihat dasbor dan laporan kesehatan organisasi Anda.</p>
       ${roleCardsHTML()}
       <div class="form-group">
         <label class="field-label">Email Bisnis</label>
@@ -118,7 +126,7 @@ function renderRegisterForm() {
         <label class="field-label">Email Bisnis</label>
         <div class="field-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <input type="email" id="regEmail" placeholder="admin@nexaumkm.com" value="${_regTemp.email||''}">
+          <input type="email" id="regEmail" placeholder="admin@terasmatrix.id" value="${_regTemp.email||''}">
         </div>
       </div>
       <div class="form-group-half">
@@ -126,7 +134,7 @@ function renderRegisterForm() {
           <label class="field-label">Kata Sandi</label>
           <div class="field-wrap">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <input type="password" id="regPwd" placeholder="Min. 8 karakter">
+            <input type="password" id="regPwd" placeholder="Minimal 8 karakter">
           </div>
         </div>
         <div>
@@ -158,6 +166,14 @@ function renderRegisterForm2() {
           <input type="text" id="reg2Name" placeholder="Masukkan nama resmi bisnis Anda" value="${_regTemp.name||''}">
         </div>
       </div>
+      ${_regTemp.role === 'employee' ? `
+      <div class="form-group">
+        <label class="field-label" for="reg2InviteCode">Kode Undangan dari Pemilik UMKM</label>
+        <div class="field-wrap">
+          <input type="text" id="reg2InviteCode" placeholder="Masukkan kode undangan" autocomplete="off" maxlength="10">
+        </div>
+        <div class="field-hint">Minta kode ini kepada pemilik UMKM agar akun Anda terhubung ke usaha yang benar.</div>
+      </div>` : ''}
       <div class="form-group-half">
         <div>
           <label class="field-label">Lokasi UMKM</label>
@@ -177,8 +193,8 @@ function renderRegisterForm2() {
             <select id="reg2Sektor">
               <option value="">Pilih Bidang Industri</option>
               <option>Makanan &amp; Minuman</option>
-              <option>Fashion</option>
-              <option>Grosir &amp; Retail</option>
+              <option value="Fashion">Busana</option>
+              <option value="Grosir &amp; Retail">Grosir &amp; Ritel</option>
             </select>
           </div>
         </div>
@@ -225,7 +241,7 @@ async function handleLogin() {
   try {
     const res = await AuthAPI.login({ email, password: pwd, role: selectedRole });
     if (!res.ok) {
-      showToast(res.message || 'Login gagal.', 'error');
+      showToast(res.message || 'Gagal masuk.', 'error');
       setLoading('btnLogin', false, 'Masuk');
       return;
     }
@@ -237,15 +253,16 @@ async function handleLogin() {
       email:     res.data?.email      || email,
       role:      res.data?.role       || selectedRole,
       user_id:   res.data?.user_id,
+      invite_code: res.data?.invite_code || '',
       umkm_name: safeName,
       lokasi:    res.data?.lokasi     || '',
       sektor:    res.data?.sektor     || '',
       omzet:     res.data?.omzet      ?? null,
     };
-    showToast(`Login berhasil! Selamat datang, ${safeName}.`, 'success');
+    showToast(`Berhasil masuk! Selamat datang, ${safeName}.`, 'success');
     setTimeout(() => showView('dashboard'), 400);
   } catch(e) {
-    showToast(e.message || 'Tidak dapat terhubung ke server. Pastikan Apache dan MySQL aktif.', 'error');
+    showToast(e.message || 'Tidak dapat terhubung ke Supabase. Periksa konfigurasi dan koneksi internet.', 'error');
     setLoading('btnLogin', false, 'Masuk');
   }
 }
@@ -273,6 +290,7 @@ async function handleRegisterStep2() {
   const lokasi = document.getElementById('reg2Lokasi')?.value;
   const sektor = document.getElementById('reg2Sektor')?.value;
   const omzet  = document.getElementById('reg2Omzet')?.value;
+  const inviteCode = (document.getElementById('reg2InviteCode')?.value || '').trim().toUpperCase();
   const nameField = (document.getElementById('reg2Name')?.value || '').trim();
   // Gunakan nama dari step 1 jika field kosong
   const finalName = nameField || _regTemp.name || '';
@@ -280,6 +298,10 @@ async function handleRegisterStep2() {
   if (!finalName) { showToast('Nama UMKM wajib diisi.', 'error'); return; }
   if (!lokasi)    { showToast('Pilih lokasi UMKM.', 'error'); return; }
   if (!sektor)    { showToast('Pilih sektor UMKM.', 'error'); return; }
+  if (_regTemp.role === 'employee' && !inviteCode) {
+    showToast('Masukkan kode undangan dari pemilik UMKM.', 'error');
+    return;
+  }
 
   setLoading('btnReg2', true, 'Simpan & Daftar Akun →');
   try {
@@ -291,11 +313,19 @@ async function handleRegisterStep2() {
       lokasi,
       sektor,
       omzet: omzet ? parseInt(omzet) : null,
+      invite_code: inviteCode,
     });
 
     if (!res.ok) {
       showToast(res.message || 'Registrasi gagal.', 'error');
       setLoading('btnReg2', false, 'Simpan & Daftar Akun →');
+      return;
+    }
+
+    if (res.data?.requiresEmailConfirmation) {
+      _regTemp = {};
+      showToast(res.message, 'success');
+      showView('login');
       return;
     }
 
@@ -307,6 +337,7 @@ async function handleRegisterStep2() {
       email:     res.data?.email     || _regTemp.email,
       role:      res.data?.role      || _regTemp.role,
       user_id:   res.data?.user_id,
+      invite_code: res.data?.invite_code || '',
       umkm_name: savedName,
       lokasi:    res.data?.lokasi    || lokasi || '',
       sektor:    res.data?.sektor    || sektor || '',
@@ -316,15 +347,16 @@ async function handleRegisterStep2() {
     showToast(`Registrasi berhasil! Selamat datang, ${savedName}.`, 'success');
     setTimeout(() => showView('dashboard'), 400);
   } catch(e) {
-    showToast(e.message || 'Tidak dapat terhubung ke server. Pastikan Apache dan MySQL aktif.', 'error');
+    showToast(e.message || 'Tidak dapat terhubung ke Supabase. Periksa konfigurasi dan koneksi internet.', 'error');
     setLoading('btnReg2', false, 'Simpan & Daftar Akun →');
   }
 }
 
 // ── Check session on load ─────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  const user = AuthAPI.getUser();
-  if (user && AuthAPI.isLoggedIn()) {
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const user = await AuthAPI.restoreSession();
+    if (user) {
     // Bersihkan nilai yang mungkin undefined
     const safeName = (user.umkm_name && user.umkm_name !== 'undefined')
       ? user.umkm_name
@@ -337,14 +369,20 @@ document.addEventListener('DOMContentLoaded', () => {
       email:     user.email     || '',
       role:      user.role      || 'owner',
       user_id:   user.user_id,
+      invite_code: user.invite_code || '',
       umkm_name: safeName,
       lokasi:    user.lokasi    || '',
       sektor:    user.sektor    || '',
       omzet:     user.omzet     ?? null,
     };
     showView('dashboard');
-  } else {
-    const savedView = sessionStorage.getItem('nexa_view');
-    showView(savedView === 'login' || savedView === 'register' ? savedView : 'landing');
+      return;
+    }
+  } catch (error) {
+    console.error('Gagal memulihkan sesi Supabase:', error);
+    showToast(error.message || 'Sesi tidak dapat dipulihkan.', 'error');
   }
+
+  const savedView = sessionStorage.getItem('nexa_view');
+  showView(savedView === 'login' || savedView === 'register' ? savedView : 'landing');
 });

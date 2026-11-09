@@ -1,6 +1,8 @@
 // ═══════════════════════════════════════════════════════════════
 //  GLOBAL STATE
 // ═══════════════════════════════════════════════════════════════
+const RESPONDENT_LIMIT = 30;
+
 const AppState = {
   sidebarOpen:  true,
   currentUser:  null,
@@ -9,17 +11,16 @@ const AppState = {
   filteredData: [],
   currentPage:  1,
   pageSize:     10,
-  maxPages:     3,
-  maxTableRows: 30,
+  maxPages:     Math.ceil(RESPONDENT_LIMIT / 10),
+  maxTableRows: RESPONDENT_LIMIT,
   activeFilter: 'semua',
 
   // Total UMKM — single source of truth
   get totalUmkm() {
-    const dbCount = (this.umkmData || []).filter(x => x.isNew).length;
-    return 428 + dbCount;
+    return Math.min(RESPONDENT_LIMIT, (this.umkmData || []).length);
   },
   addUmkm() {
-    return this.totalUmkm + 1;
+    return Math.min(RESPONDENT_LIMIT, this.totalUmkm + 1);
   },
 };
 
@@ -85,8 +86,15 @@ function renderNotifications() {
   const data = AppState.filteredData || AppState.umkmData || [];
   const total = data.length;
   
-  const user = AppState.currentUser || { displayName: 'User' };
+  const user = AppState.currentUser || { displayName: 'Pengguna' };
   safeSet('notif-halo', 'Halo, ' + user.displayName + '!');
+  if (!data.length) {
+    const listContainer = document.getElementById('notif-list-container');
+    if (listContainer) listContainer.innerHTML = '<div class="notif-empty">Belum ada data kuesioner atau notifikasi.</div>';
+    safeSet('notif-badge-count-text', '0');
+    safeSet('notif-badge-num', '00');
+    return;
+  }
   
   let insVal = '1.79';
   if (AppState.dashboardStats && AppState.dashboardStats.factor_averages && AppState.dashboardStats.factor_averages.avg_ins_5) {
@@ -136,8 +144,8 @@ function renderNotifications() {
           <div class="notif-item-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
           <div class="notif-item-content">
             <div class="notif-item-type">PERINGATAN KRITIS</div>
-            <div class="notif-item-title">Peringatan Distribusi: Outlier Terdeteksi</div>
-            <div class="notif-item-desc">Ditemukan ${outlierIDs.length} UMKM dengan performa ekstrim${outlierText} yang berada jauh di atas rata-rata populasi. Segera tinjau anomali data.</div>
+            <div class="notif-item-title">Peringatan Distribusi: Pencilan Terdeteksi</div>
+            <div class="notif-item-desc">Ditemukan ${outlierIDs.length} UMKM dengan performa ekstrem${outlierText} yang berada jauh di atas rata-rata populasi. Segera tinjau anomali data.</div>
           </div>
           <div class="notif-item-time">45 mnt yang lalu</div>
         </div>
@@ -173,6 +181,11 @@ function updateUserDisplay() {
 
   // Simpan nama yang sudah dibersihkan
   AppState.currentUser.displayName = displayName;
+  
+  document.querySelectorAll('.user-name').forEach(el => {
+    el.textContent = displayName;
+  });
+
 
   const av = document.getElementById('topbarAvatar');
   if (av) av.textContent = displayName[0].toUpperCase();
@@ -191,11 +204,11 @@ function updateUserDisplay() {
 
   // Role badge
   const rb = document.getElementById('topbarRole');
-  if (rb) rb.textContent = user.role === 'employee' ? '👤 Pegawai' : '👔 Owner';
+  if (rb) rb.textContent = user.role === 'employee' ? '👤 Pegawai' : '👔 Pemilik UMKM';
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  MASTER UMKM DATA  (Data dari CSV & Database)
+//  MASTER UMKM DATA (Data dari database)
 // ═══════════════════════════════════════════════════════════════
 
 let isFetchingUmkm = false;
@@ -210,83 +223,9 @@ async function loadUmkmData() {
   isFetchingUmkm = true;
   AppState.umkmData = [];
   try {
-    const res = await fetch('data_asli.csv');
-    if (res.ok) {
-      const text = await res.text();
-      const lines = text.trim().split('\n');
-      if (lines.length > 1) {
-        const headers = lines[0].split(';');
-        const sektorMap = { '1': 'Makanan & Minuman', '2': 'Fashion', '3': 'Grosir & Retail' };
-        const locations = ['Jakarta Selatan', 'Solo', 'Bandung', 'Surabaya', 'Semarang', 'Yogyakarta', 'Medan', 'Makassar', 'Bali', 'Depok', 'Malang', 'Bogor'];
-        const rekoms = ['Efisiensi Biaya', 'Digitalisasi Pasar', 'Manajemen Inventori', 'Ekspansi Regional', 'Diversifikasi Produk', 'Platform Online', 'Pelatihan SDM', 'Manajemen Stok'];
-
-        let rataIdx = headers.findIndex(h => h.trim().toLowerCase() === 'rata-rata');
-        if (rataIdx === -1) rataIdx = 46;
-        
-        const ovIdx = headers.findIndex(h => h.trim() === 'OV');
-        const ldiIdx = headers.findIndex(h => h.trim() === 'LDI');
-        const insIdx = headers.findIndex(h => h.trim() === 'INS');
-        const opsIdx = headers.findIndex(h => h.trim() === 'OPS');
-        const weqIdx = headers.findIndex(h => h.trim() === 'WEQ');
-        const ectIdx = headers.findIndex(h => h.trim() === 'ECT');
-
-        const parseScore = (v) => v ? parseFloat(v.replace(',','.')) : 0;
-
-        for (let i = 1; i < lines.length; i++) {
-          const cols = lines[i].split(';');
-          if (cols.length < 10) continue;
-          
-          const rawId = cols[0];
-          const intId = parseInt(rawId) || i;
-          const idStr = String(intId).padStart(3, '0');
-          
-          const indCode = cols[3];
-          const sektor = sektorMap[indCode] || 'Grosir & Retail';
-          
-          let nama = '';
-          if (indCode === '1') nama = 'Kedai ' + ['Sedap','Berkah','Nusantara','Rasa','Maju','Jaya'][intId % 6] + ' ' + idStr;
-          else if (indCode === '2') nama = 'Butik ' + ['Gaya','Trendi','Elegan','Pesona','Modis','Cantik'][intId % 6] + ' ' + idStr;
-          else nama = 'Toko ' + ['Makmur','Sejahtera','Abadi','Lancar','Maju','Jaya'][intId % 6] + ' ' + idStr;
-          
-          const lokasi = locations[intId % locations.length];
-          const omzet = (20 + ((intId * 13) % 280)) + 'Jt';
-          
-          let skorVal = cols[rataIdx] ? parseFloat(cols[rataIdx].replace(',','.')) : 0;
-          let skor = Math.round((skorVal / 5) * 100); 
-          if (isNaN(skor)) skor = 50;
-
-          const factor = skor >= 70 ? 'Kekuatan: Operasional' : 'Kelemahan: Tata Kelola';
-          const rek = rekoms[intId % rekoms.length];
-          
-          AppState.umkmData.push({
-            id: idStr,
-            nama: nama,
-            lokasi: lokasi,
-            sektor: sektor,
-            omzet: omzet,
-            skor: skor,
-            faktor: factor,
-            rek: rek,
-            isNew: false,
-            scores: {
-              ov: ovIdx !== -1 ? parseScore(cols[ovIdx]) : 3.0,
-              ldi: ldiIdx !== -1 ? parseScore(cols[ldiIdx]) : 3.0,
-              ins: insIdx !== -1 ? parseScore(cols[insIdx]) : 3.0,
-              ops: opsIdx !== -1 ? parseScore(cols[opsIdx]) : 3.0,
-              weq: weqIdx !== -1 ? parseScore(cols[weqIdx]) : 3.0,
-              ect: ectIdx !== -1 ? parseScore(cols[ectIdx]) : 3.0
-            }
-          });
-        }
-      }
-    }
-  } catch (err) {
-    console.error('Error loading CSV:', err);
-  }
-
-  // Load from DB (backend)
-  try {
-    const res = await DashboardAPI.getUmkmList({ limit: 1000 });
+    const res = await DashboardAPI.getUmkmList({ 
+      limit: RESPONDENT_LIMIT 
+    });
     if (res && res.ok && res.data && Array.isArray(res.data.rows)) {
       const dbRows = res.data.rows;
       const baseId = AppState.umkmData.length;
@@ -305,7 +244,7 @@ async function loadUmkmData() {
             if (num >= 1000)    return (num / 1000).toFixed(0) + 'Rb';
             return num + '';
           })(),
-          skor:   r.score_on_5 ? Math.round((r.score_on_5 / 5) * 100) : 0,
+          skor: r.score_on_5 != null ? Number(r.score_on_5) * 20 : 0,
           faktor: (r.score_on_5 || 0) >= 3 ? 'Kekuatan: Operasional' : 'Kelemahan: Perlu Perhatian',
           rek:    r.health_category === 'SANGAT BAIK' ? 'Pertahankan Kinerja'
                 : r.health_category === 'BAIK'        ? 'Optimalisasi Proses'
@@ -314,24 +253,28 @@ async function loadUmkmData() {
           tanggal: r.submitted_at || null,
           isNew: true,
           scores: {
-             ov:  r.score_ov_5 ? parseFloat(r.score_ov_5) : 3.0,
-             ldi: r.score_ldi_5 ? parseFloat(r.score_ldi_5) : 3.0,
-             ins: r.score_ins_5 ? parseFloat(r.score_ins_5) : 3.0,
-             ops: r.score_ops_5 ? parseFloat(r.score_ops_5) : 3.0,
-             weq: r.score_weq_5 ? parseFloat(r.score_weq_5) : 3.0,
-             ect: r.score_ect_5 ? parseFloat(r.score_ect_5) : 3.0
+             ov:  parseFloat(r.score_ov_5) || 0,
+             ldi: parseFloat(r.score_ldi_5) || 0,
+             ins: parseFloat(r.score_ins_5) || 0,
+             ops: parseFloat(r.score_ops_5) || 0,
+             weq: parseFloat(r.score_weq_5) || 0,
+             ect: parseFloat(r.score_ect_5) || 0
           }
         };
       });
-      AppState.umkmData = [...AppState.umkmData, ...dbEntries];
+      AppState.umkmData = [...dbEntries, ...AppState.umkmData].slice(0, RESPONDENT_LIMIT);
     }
   } catch(e) {
     console.error('Failed to load UMKM data from database:', e);
+  } finally {
+    isFetchingUmkm = false;
   }
 
+  AppState.umkmData.forEach((umkm, index) => {
+    umkm.id = String(index + 1).padStart(3, '0');
+  });
   AppState.filteredData = [...AppState.umkmData];
   AppState.currentPage  = 1;
-  isFetchingUmkm = false;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -398,7 +341,7 @@ function filterByKategori(kategori) {
   }
   // Close dropdown
   document.querySelectorAll('.dropdown-menu').forEach(d => d.classList.remove('show'));
-  showToast(`Filter aktif: ${kategori === 'semua' ? 'Semua UMKM' : kategori}`);
+  showToast(`Penyaring aktif: ${kategori === 'semua' ? 'Semua UMKM' : kategori}`);
 }
 
 function filterUmkmTable(sektor) {
@@ -409,11 +352,6 @@ function filterUmkmTable(sektor) {
 //  RENDER UMKM TABLE  — dengan pagination
 // ═══════════════════════════════════════════════════════════════
 function renderUmkmTable() {
-  if (!AppState.umkmData.length) {
-    loadUmkmData().then(() => renderUmkmTable());
-    return;
-  }
-
   const data      = AppState.filteredData;
   const total     = data.length;
   const maxPages  = AppState.maxPages || 3;
@@ -428,6 +366,24 @@ function renderUmkmTable() {
   const tbody = document.getElementById('umkmTableBody');
   if (!tbody) return;
 
+  if (!AppState.umkmData.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--gray-500)">Belum ada data kuesioner.</td></tr>';
+    safeSet('paginationInfo', 'Belum ada data');
+    safeSet('paginationBtns', '');
+    document.querySelector('#page-umkmrec .pagination')?.setAttribute('hidden', '');
+    document.getElementById('table-stats')?.setAttribute('hidden', '');
+    document.getElementById('recommendation-content')?.setAttribute('hidden', '');
+    document.getElementById('recommendation-empty-state')?.removeAttribute('hidden');
+    safeSet('rec-total-count', '0');
+    safeSet('stat-total-rec', '0');
+    safeSet('stat-avg-rec', '—');
+    return;
+  }
+
+  document.querySelector('#page-umkmrec .pagination')?.removeAttribute('hidden');
+  document.getElementById('table-stats')?.removeAttribute('hidden');
+  document.getElementById('recommendation-content')?.removeAttribute('hidden');
+  document.getElementById('recommendation-empty-state')?.setAttribute('hidden', '');
   if (!slice.length) {
     tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--gray-400)">Tidak ada data ditemukan</td></tr>`;
   } else {
@@ -509,6 +465,10 @@ function showUmkmDetail(id) {
 // ═══════════════════════════════════════════════════════════════
 function exportData() {
   const data = AppState.filteredData.length ? AppState.filteredData : AppState.umkmData;
+  if (!data.length) {
+    showToast('Belum ada data untuk diekspor.', 'warning');
+    return;
+  }
   const headers = ['ID','Nama UMKM','Lokasi','Sektor','Omzet','Skor Kesehatan','Faktor Utama','Rekomendasi'];
   const rows = data.map(u => [u.id, u.nama, u.lokasi, u.sektor, u.omzet, u.skor, u.faktor, u.rek]
     .map(v => `"${String(v).replace(/"/g,'""')}"`).join(','));
@@ -550,7 +510,7 @@ function showProtokol(jenis) {
         'Mapping pelanggan potensial di segmen baru',
         'Evaluasi struktur utang dan arus kas triwulan',
         'Buat strategi penetrasi pasar digital',
-        'Review bulanan dengan tim manajemen',
+        'Tinjauan bulanan bersama tim pengelola',
       ],
       eta: '48 jam',
     },
@@ -609,7 +569,12 @@ async function loadDashboardData() {
   
   const data = AppState.umkmData;
   const total = data.length;
-  if (total === 0) return;
+  if (total === 0) {
+    AppState.dashboardStats = null;
+    AppState.factorAverages = null;
+    applyEmptyDashboardState();
+    return;
+  }
 
   let sumOV = 0, sumLDI = 0, sumINS = 0, sumOPS = 0, sumWEQ = 0, sumECT = 0;
   let sehatCount = 0;
@@ -635,7 +600,8 @@ async function loadDashboardData() {
     total_valid: total,
     sehat_count: sehatCount,
     best_score: maxScore,
-    worst_score: minScore
+    worst_score: minScore,
+    avg_score_pct: data.reduce((sum, item) => sum + item.skor, 0) / total
   };
   
   AppState.factorAverages = {
@@ -650,8 +616,106 @@ async function loadDashboardData() {
   applyDynamicData();
 }
 
+function setDashboardContentVisibility(hasData) {
+  const contentStates = [
+    ['factor-grid', hasData],
+    ['factor-summary', hasData],
+    ['factor-empty-state', !hasData],
+    ['distribution-content', hasData],
+    ['distribution-empty-state', !hasData],
+    ['comparison-content', hasData],
+    ['comparison-extra', hasData],
+    ['table-stats', hasData],
+    ['recommendation-content', hasData],
+    ['recommendation-empty-state', !hasData],
+  ];
+  contentStates.forEach(([id, visible]) => {
+    const element = document.getElementById(id);
+    if (element) element.toggleAttribute('hidden', !visible);
+  });
+  if (hasData) {
+    [window.spiderChartInst, window.histChartInst, window.trendChartInst].forEach(chart => chart?.resize());
+  }
+}
+
+function getHealthCategoryCounts(data) {
+  const counts = [0, 0, 0, 0];
+
+  data.forEach(({ skor }) => {
+    if (skor < 40) counts[0]++;
+    else if (skor < 60) counts[1]++;
+    else if (skor < 80) counts[2]++;
+    else counts[3]++;
+  });
+
+  return counts;
+}
+
+function applyEmptyDashboardState() {
+  setDashboardContentVisibility(false);
+  updateTotalDisplay(0);
+  updateDonutLegend(0);
+  safeSet('stat-sehat-pct', '—');
+  safeSet('stat-best-score', '—');
+  safeSet('stat-worst-score', '—');
+  safeSet('dashboard-insight', 'Belum ada data kuesioner untuk dianalisis.');
+  safeSet('dashboard-trend-label', 'Belum ada tren');
+  safeSet('dist-populasi', 'Populasi: 0');
+  safeSet('dist-mu', 'μ: —');
+  safeSet('distribution-subtitle', 'Belum ada data responden');
+  safeSet('outlier-count-title', 'Data Pencilan (0)');
+  safeSet('sektor-total-unit', '0');
+  safeSet('sektor-legend', 'Belum ada data sektor');
+  safeSet('rec-total-count', '0');
+  safeSet('paginationInfo', 'Belum ada data');
+  safeSet('comp-top-id', 'Belum tersedia');
+  safeSet('comp-top-score', '—');
+  safeSet('comp-crit-id', 'Belum tersedia');
+  safeSet('comp-crit-score', '—');
+  safeSet('comparison-intro', 'Belum ada evaluasi tervalidasi dengan skor. Isi dan simpan Form Data terlebih dahulu.');
+  safeSet('comp-gap-avg', '—');
+  safeSet('comp-gap-text', 'Belum ada data untuk dianalisis.');
+  safeSet('bw-median-score', '—');
+  safeSet('bw-q1', '—');
+  safeSet('bw-q2', '—');
+  safeSet('bw-q3', '—');
+  safeSet('bw-iqr', '—');
+  safeSet('stat-total-rec', '0');
+  safeSet('stat-avg-rec', '—');
+
+  document.querySelectorAll('.factor-score').forEach(el => { el.textContent = '—'; });
+  document.querySelectorAll('.factor-dev').forEach(el => { el.textContent = 'Belum ada data'; });
+  document.querySelectorAll('.factor-badge').forEach(el => {
+    el.textContent = '—';
+    el.className = 'factor-badge';
+  });
+
+  if (window.donutChartInst) {
+    window.donutChartInst.data.datasets[0].data = [0, 0, 0, 0];
+    window.donutChartInst.update('none');
+  }
+  if (window.barChartInst) {
+    window.barChartInst.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+    window.barChartInst.update('none');
+  }
+  if (window.spiderChartInst) {
+    window.spiderChartInst.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+    window.spiderChartInst.update('none');
+  }
+  if (window.histChartInst) {
+    window.histChartInst.data.datasets[0].data = [0, 0, 0, 0, 0, 0, 0];
+    window.histChartInst.update('none');
+  }
+  renderUmkmTable();
+  updateDistributionUI();
+}
+
 function applyDynamicData() {
-  if (!AppState.dashboardStats || !AppState.factorAverages) return;
+  if (!AppState.umkmData.length || !AppState.dashboardStats || !AppState.factorAverages) {
+    applyEmptyDashboardState();
+    return;
+  }
+  setDashboardContentVisibility(true);
   const stats = AppState.dashboardStats;
   const fa = AppState.factorAverages;
   const total = Math.max(parseInt(stats.total_umkm) || 0, AppState.totalUmkm);
@@ -662,6 +726,9 @@ function applyDynamicData() {
   const sehatCount = parseInt(stats.sehat_count) || 0;
   const totalValid = parseInt(stats.total_valid) || 1;
   const sehatPct   = total > 0 ? Math.round((sehatCount / totalValid) * 100) + '%' : '--';
+  safeSet('comparison-intro', `${total} UMKM dengan evaluasi tervalidasi.`);
+  safeSet('dashboard-insight', `${total} responden telah mengisi kuesioner.`);
+  safeSet('dashboard-trend-label', 'Data terkini');
   safeSet('stat-sehat-pct',   sehatPct);
   const elBest = document.getElementById('stat-best-score');
   if (elBest) elBest.innerHTML = `${(stats.best_score/20).toFixed(2)}<span style="font-size:16px;color:var(--gray-400);font-weight:600"> / 5.0</span>`;
@@ -669,21 +736,18 @@ function applyDynamicData() {
   if (elWorst) elWorst.innerHTML = `${(stats.worst_score/20).toFixed(2)}<span style="font-size:16px;color:var(--danger);opacity:0.6;font-weight:600"> / 5.0</span>`;
 
   if (window.donutChartInst && total > 0) {
-    const buruk = Math.round(total * 0.065);
-    const baik  = Math.round(total * 0.194);
-    const cukup = total - buruk - baik;
-    window.donutChartInst.data.datasets[0].data = [buruk, cukup, baik, 0];
+    window.donutChartInst.data.datasets[0].data = getHealthCategoryCounts(AppState.umkmData);
     window.donutChartInst.update('none');
   }
 
   if (fa && window.barChartInst) {
     const live = [
-      (fa.avg_ov_5  !== undefined && fa.avg_ov_5  !== null) ? parseFloat(fa.avg_ov_5)  : 3.41,
-      (fa.avg_ops_5 !== undefined && fa.avg_ops_5 !== null) ? parseFloat(fa.avg_ops_5) : 2.38,
-      (fa.avg_weq_5 !== undefined && fa.avg_weq_5 !== null) ? parseFloat(fa.avg_weq_5) : 3.31,
-      (fa.avg_ins_5 !== undefined && fa.avg_ins_5 !== null) ? parseFloat(fa.avg_ins_5) : 1.79,
-      (fa.avg_ldi_5 !== undefined && fa.avg_ldi_5 !== null) ? parseFloat(fa.avg_ldi_5) : 2.95,
-      (fa.avg_ect_5 !== undefined && fa.avg_ect_5 !== null) ? parseFloat(fa.avg_ect_5) : 1.80,
+      parseFloat(fa.avg_ov_5) || 0,
+      parseFloat(fa.avg_ops_5) || 0,
+      parseFloat(fa.avg_weq_5) || 0,
+      parseFloat(fa.avg_ins_5) || 0,
+      parseFloat(fa.avg_ldi_5) || 0,
+      parseFloat(fa.avg_ect_5) || 0,
     ];
     window.barChartInst.data.datasets[0].data = live;
     window.barChartInst.options.animation = { duration: 600, easing: 'easeOutQuart' };
@@ -692,31 +756,25 @@ function applyDynamicData() {
 
   if (fa && window.spiderChartInst) {
     window.spiderChartInst.data.datasets[0].data = [
-      (fa.avg_ins_5 !== undefined && fa.avg_ins_5 !== null) ? parseFloat(fa.avg_ins_5) : 1.79,
-      (fa.avg_ldi_5 !== undefined && fa.avg_ldi_5 !== null) ? parseFloat(fa.avg_ldi_5) : 2.95,
-      (fa.avg_weq_5 !== undefined && fa.avg_weq_5 !== null) ? parseFloat(fa.avg_weq_5) : 3.31,
-      (fa.avg_ov_5  !== undefined && fa.avg_ov_5  !== null) ? parseFloat(fa.avg_ov_5)  : 3.41,
-      (fa.avg_ops_5 !== undefined && fa.avg_ops_5 !== null) ? parseFloat(fa.avg_ops_5) : 2.38,
-      (fa.avg_ect_5 !== undefined && fa.avg_ect_5 !== null) ? parseFloat(fa.avg_ect_5) : 1.80,
+      parseFloat(fa.avg_ins_5) || 0,
+      parseFloat(fa.avg_ldi_5) || 0,
+      parseFloat(fa.avg_weq_5) || 0,
+      parseFloat(fa.avg_ov_5) || 0,
+      parseFloat(fa.avg_ops_5) || 0,
+      parseFloat(fa.avg_ect_5) || 0,
     ];
     window.spiderChartInst.update();
   }
 
   // Update UMKM & Recommendations bottom metrics dynamically
-  const countBuruk = Math.round(total * 0.065);
-  const complianceVal = total > 0 ? (100 - (countBuruk / total * 100)).toFixed(1) : 96.4;
-  safeSet('rec-compliance', complianceVal + '%');
+  const countBuruk = getHealthCategoryCounts(AppState.umkmData)[0];
+  safeSet('rec-compliance', '—');
   safeSet('rec-critical', countBuruk + ' Peringatan');
-  const simulatedRespTime = (14.0 + (total % 10) / 5).toFixed(1);
-  safeSet('rec-resp-time', simulatedRespTime + ' Min');
-  const nextDate = new Date();
-  nextDate.setHours(nextDate.getHours() + 2);
-  nextDate.setMinutes(0);
-  const nextScan = nextDate.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
-  safeSet('rec-next-scan', nextScan);
+  safeSet('rec-resp-time', '—');
+  safeSet('rec-next-scan', '—');
 
   // Update Intervensi Strategis metrics
-  const protokolAktif = countBuruk > 0 ? countBuruk + 2 : 12;
+  const protokolAktif = countBuruk;
   safeSet('intv-protokol', protokolAktif);
   
   if (countBuruk > 35) {
@@ -736,12 +794,12 @@ function applyDynamicData() {
     if (el) el.className = 'intervensi-stat-sub';
   }
 
-  const efisiensi = (sehatPct && sehatPct !== '--') ? sehatPct : '88%';
+  const efisiensi = (sehatPct && sehatPct !== '--') ? sehatPct : '—';
   safeSet('intv-efisiensi', efisiensi);
 
   if (fa) {
-    const insVal = (fa.avg_ins_5 !== undefined && fa.avg_ins_5 !== null) ? parseFloat(fa.avg_ins_5) : 1.79;
-    const ectVal = (fa.avg_ect_5 !== undefined && fa.avg_ect_5 !== null) ? parseFloat(fa.avg_ect_5) : 1.80;
+    const insVal = parseFloat(fa.avg_ins_5) || 0;
+    const ectVal = parseFloat(fa.avg_ect_5) || 0;
     
     const insChange = insVal < 3.0 ? '-' + ((3.0 - insVal) * 10).toFixed(1) + '%' : '+' + ((insVal - 3.0) * 10).toFixed(1) + '%';
     safeSet('intv-ins-val', insChange);
@@ -756,12 +814,12 @@ function applyDynamicData() {
 
   // --- INTEGRASI BAGAN-BAGAN FACTOR PROFILE ---
   const factorVals = {
-    ins: (fa.avg_ins_5 !== undefined && fa.avg_ins_5 !== null) ? parseFloat(fa.avg_ins_5) : 1.79,
-    ldi: (fa.avg_ldi_5 !== undefined && fa.avg_ldi_5 !== null) ? parseFloat(fa.avg_ldi_5) : 2.95,
-    weq: (fa.avg_weq_5 !== undefined && fa.avg_weq_5 !== null) ? parseFloat(fa.avg_weq_5) : 3.31,
-    ov:  (fa.avg_ov_5  !== undefined && fa.avg_ov_5  !== null) ? parseFloat(fa.avg_ov_5)  : 3.41,
-    ops: (fa.avg_ops_5 !== undefined && fa.avg_ops_5 !== null) ? parseFloat(fa.avg_ops_5) : 2.38,
-    ect: (fa.avg_ect_5 !== undefined && fa.avg_ect_5 !== null) ? parseFloat(fa.avg_ect_5) : 1.80
+    ins: parseFloat(fa.avg_ins_5) || 0,
+    ldi: parseFloat(fa.avg_ldi_5) || 0,
+    weq: parseFloat(fa.avg_weq_5) || 0,
+    ov:  parseFloat(fa.avg_ov_5) || 0,
+    ops: parseFloat(fa.avg_ops_5) || 0,
+    ect: parseFloat(fa.avg_ect_5) || 0
   };
 
   const factorNames = {
@@ -873,7 +931,7 @@ function applyDynamicData() {
     const topStatusEl = document.getElementById('comp-top-status');
     if (topStatusEl) {
       const isExcellent = parseFloat(bestScoreOn5) >= 3.5;
-      topStatusEl.textContent = isExcellent ? '✓ Status: Excellent' : '✓ Status: Good';
+      topStatusEl.textContent = isExcellent ? '✓ Status: Sangat Baik' : '✓ Status: Baik';
       topStatusEl.className = 'performer-status status-excellent';
     }
 
@@ -886,12 +944,12 @@ function applyDynamicData() {
     const critStatusEl = document.getElementById('comp-crit-status');
     if (critStatusEl) {
       const isIntervention = parseFloat(worstScoreOn5) < 2.0;
-      critStatusEl.textContent = isIntervention ? '! Status: Intervention Required' : '! Status: Needs Monitoring';
+      critStatusEl.textContent = isIntervention ? '! Status: Perlu Intervensi' : '! Status: Perlu Dipantau';
       critStatusEl.className = isIntervention ? 'performer-status status-intervention' : 'performer-status status-excellent';
     }
 
     // Update Gap Analysis Card
-    const avgScorePct = (stats && stats.avg_score_pct) ? parseFloat(stats.avg_score_pct) : 76.0;
+    const avgScorePct = parseFloat(stats.avg_score_pct) || 0;
     const avgScoreOn5 = ((avgScorePct / 100) * 5).toFixed(2);
     safeSet('comp-gap-avg', avgScoreOn5);
 
@@ -978,13 +1036,10 @@ function updateTotalDisplay(total) {
 
 // Update teks legend di bawah donut chart
 function updateDonutLegend(total) {
-  const buruk = Math.round(total * 0.065);
-  const baik  = Math.round(total * 0.194);
-  const cukup = total - buruk - baik;
+  const counts = getHealthCategoryCounts(AppState.umkmData || []);
   const legends = document.querySelectorAll('.legend-item');
   if (legends.length >= 4) {
-    // Buruk, Cukup, Baik, Sangat Baik
-    const texts = [`Buruk (${buruk})`, `Cukup (${cukup})`, `Baik (${baik})`, 'Sangat Baik (0)'];
+    const texts = [`Buruk (${counts[0]})`, `Cukup (${counts[1]})`, `Baik (${counts[2]})`, `Sangat Baik (${counts[3]})`];
     legends.forEach((el, i) => {
       const dot = el.querySelector('.legend-dot');
       const text = texts[i] || el.textContent;
@@ -999,10 +1054,26 @@ function updateDonutLegend(total) {
 function updateDistributionUI() {
   const data = AppState.filteredData || AppState.umkmData || [];
   const total = data.length;
-  if (total === 0) return [0,0,0,0,0,0,0];
-
   const distPop = document.getElementById('dist-populasi');
   if (distPop) distPop.textContent = 'Populasi: ' + total;
+  if (total === 0) {
+    safeSet('distribution-intro', 'Belum ada evaluasi tervalidasi dengan skor. Isi dan simpan Form Data terlebih dahulu.');
+    safeSet('distribution-score-count', '0');
+    safeSet('distribution-average', '—');
+    safeSet('distribution-median', '—');
+    safeSet('distribution-outlier-count', '0');
+    safeSet('dist-mu', 'Rata-rata: —');
+    safeSet('bw-median-score', '—');
+    safeSet('bw-q1', '—');
+    safeSet('bw-q2', '—');
+    safeSet('bw-q3', '—');
+    safeSet('bw-iqr', '—');
+    safeSet('outlier-count-title', 'Data Pencilan (0)');
+    const tbody = document.getElementById('outlier-tbody');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#9ca3af;padding:10px;">Belum ada data untuk dihitung</td></tr>';
+    AppState.outliers = [];
+    return [0,0,0,0,0,0,0];
+  }
 
   let bins = [0, 0, 0, 0, 0, 0, 0];
   let scores5 = [];
@@ -1045,15 +1116,11 @@ function updateDistributionUI() {
   scores5.forEach(s => sumSq += (s - mean)*(s - mean));
   const sd = Math.sqrt(sumSq / total);
 
-  let q1_val = q1, q2_val = q2, q3_val = q3, iqr_val = iqr;
-  
-  // Logic penguncian presisi jika total populasi cocok dengan set excel = 428
-  if (total === 428) {
-     q1_val = 2.30;
-     q2_val = 2.58;
-     q3_val = 2.89;
-     iqr_val = 0.60;
-  }
+  const q1_val = q1, q2_val = q2, q3_val = q3, iqr_val = iqr;
+  safeSet('distribution-intro', `${total} evaluasi tervalidasi dengan skor.`);
+  safeSet('distribution-score-count', String(total));
+  safeSet('distribution-average', mean.toFixed(2));
+  safeSet('distribution-median', q2_val.toFixed(2));
   
   safeSet('bw-median-score', q2_val.toFixed(2));
   safeSet('bw-q1', q1_val.toFixed(2));
@@ -1063,7 +1130,7 @@ function updateDistributionUI() {
 
   // Update Median Teks Dinamis
   const muEl = document.getElementById('dist-mu');
-  if (muEl) muEl.textContent = 'μ: ' + q2_val.toFixed(2);
+  if (muEl) muEl.textContent = 'Rata-rata: ' + mean.toFixed(2);
   
   const lowerBound = q1_val - (1.5 * iqr_val);
   const upperBound = q3_val + (1.5 * iqr_val);
@@ -1082,6 +1149,7 @@ function updateDistributionUI() {
 
   outliers.sort((a,b) => Math.abs(b.z) - Math.abs(a.z));
   AppState.outliers = outliers;
+  safeSet('distribution-outlier-count', String(outliers.length));
 
   const bwWrap = document.getElementById('bw-wrap');
   if (bwWrap) {
@@ -1101,13 +1169,13 @@ function updateDistributionUI() {
   }
 
   const titleEl = document.getElementById('outlier-count-title');
-  if (titleEl) titleEl.textContent = 'Data Outlier (' + outliers.length + ')';
+  if (titleEl) titleEl.textContent = 'Data Pencilan (' + outliers.length + ')';
 
   const tbody = document.getElementById('outlier-tbody');
   if (tbody) {
      tbody.innerHTML = '';
      if (outliers.length === 0) {
-         tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#9ca3af;padding:10px;">Tidak ada outlier (|Z| > 2.0)</td></tr>';
+         tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#9ca3af;padding:10px;">Tidak ada pencilan (|Z| > 2,0)</td></tr>';
      } else {
          outliers.forEach(o => {
              const tr = document.createElement('tr');
@@ -1128,12 +1196,9 @@ function refreshAllCharts() {
   updateTotalDisplay(total);
   updateDonutLegend(total);
 
-  // Donut chart — update data proporsional, JANGAN reset ke 0
+  // Donut chart uses the submitted scores.
   if (window.donutChartInst) {
-    const buruk = Math.round(total * 0.065);
-    const baik  = Math.round(total * 0.194);
-    const cukup = total - buruk - baik;
-    window.donutChartInst.data.datasets[0].data = [buruk, cukup, baik, 0];
+    window.donutChartInst.data.datasets[0].data = getHealthCategoryCounts(AppState.umkmData);
     window.donutChartInst.options.animation = { duration: 600, easing: 'easeOutQuart' };
     window.donutChartInst.update();
   }
@@ -1168,7 +1233,7 @@ function renderProfilePage() {
   if (!container) return;
 
   const displayName = user.displayName || user.umkm_name || user.email?.split('@')[0] || 'Pengguna';
-  const roleLabel   = user.role === 'employee' ? 'Pegawai' : 'Owner';
+  const roleLabel   = user.role === 'employee' ? 'Pegawai' : 'Pemilik UMKM';
   const roleColor   = user.role === 'employee' ? '#7c3aed' : '#1a56db';
   const roleBg      = user.role === 'employee' ? '#ede9fe' : '#dbeafe';
   const initial     = displayName[0].toUpperCase();
@@ -1193,6 +1258,7 @@ function renderProfilePage() {
       ${infoRow('📍','Lokasi', user.lokasi || '-')}
       ${infoRow('🏭','Sektor', user.sektor || '-')}
       ${infoRow('💰','Omzet/Bulan', user.omzet ? 'IDR ' + Number(user.omzet).toLocaleString('id-ID') : '-')}
+      ${user.role === 'owner' && user.invite_code ? infoRow('🔑','Kode Undangan Pegawai', user.invite_code) : ''}
     </div>
 
     <!-- Quick actions -->
@@ -1200,8 +1266,8 @@ function renderProfilePage() {
       <div style="font-size:11px;font-weight:700;color:var(--gray-400);margin-bottom:16px;letter-spacing:1px">AKSI CEPAT</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         ${quickAction('📋','Isi Kuesioner','Tambah data kesehatan UMKM baru',"navigate('formdata')",'var(--primary-light)','var(--primary)')}
-        ${quickAction('📊','Lihat Dashboard','Pantau perkembangan skor',"navigate('home')",'#d1fae5','var(--success)')}
-        ${quickAction('🚪','Logout','Keluar dari sistem',"showModal('logoutModal')",'#fee2e2','var(--danger)')}
+        ${quickAction('📊','Lihat Dasbor','Pantau perkembangan skor',"navigate('home')",'#d1fae5','var(--success)')}
+        ${quickAction('🚪','Keluar','Keluar dari sistem',"showModal('logoutModal')",'#fee2e2','var(--danger)')}
       </div>
     </div>
   `;
@@ -1280,17 +1346,14 @@ function destroyChart(id) {
 function initHomeCharts() {
   AppState.chartsInit.home = true;
 
-  const total = AppState.totalUmkm;  // dari localStorage, persist across reload
-  const buruk = Math.round(total * 0.065);
-  const baik  = Math.round(total * 0.194);
-  const cukup = total - buruk - baik;
+  const total = AppState.totalUmkm;
 
   destroyChart('donutChart');
   window.donutChartInst = new Chart(document.getElementById('donutChart'), {
     type: 'doughnut',
     data: {
       labels: ['Buruk','Cukup','Baik','Sangat Baik'],
-      datasets: [{ data:[buruk, cukup, baik, 0], backgroundColor:['#ef4444','#1a56db','#22c55e','#d1d5db'], borderWidth:3, borderColor:'#fff', hoverOffset:10 }]
+      datasets: [{ data:getHealthCategoryCounts(AppState.umkmData), backgroundColor:['#ef4444','#1a56db','#22c55e','#d1d5db'], borderWidth:3, borderColor:'#fff', hoverOffset:10 }]
     },
     options: { cutout:'72%', plugins:{ legend:{display:false} }, animation:{ animateScale:true, animateRotate:true, duration:1000, easing:'easeOutBounce' } }
   });
@@ -1306,7 +1369,7 @@ function initHomeCharts() {
     type: 'bar',
     data: {
       labels: ['Budaya','Inovasi','Proses','Sumber\nDaya','Kepemimpinan','Eksternal'],
-      datasets: [{ data:[3.41,2.38,3.31,1.79,2.95,1.80], backgroundColor:['#0f9b6e','#d97706','#1a56db','#ef4444','#1a56db','#0891b2'], borderRadius:8, borderSkipped:false }]
+      datasets: [{ data:[0,0,0,0,0,0], backgroundColor:['#0f9b6e','#d97706','#1a56db','#ef4444','#1a56db','#0891b2'], borderRadius:8, borderSkipped:false }]
     },
     options: {
       plugins:{ legend:{display:false} },
@@ -1318,7 +1381,7 @@ function initHomeCharts() {
   destroyChart('trendMini');
   new Chart(document.getElementById('trendMini'), {
     type:'line',
-    data:{ labels:['Q1','Q2','Q3','Q4','Q5'], datasets:[{ data:[1.2,1.8,2.0,2.5,3.1], borderColor:'rgba(255,255,255,0.9)', borderWidth:2, pointRadius:3, pointBackgroundColor:'#fff', fill:true, backgroundColor:'rgba(255,255,255,0.1)', tension:0.4 }] },
+    data:{ labels:[], datasets:[{ data:[], borderColor:'rgba(255,255,255,0.9)', borderWidth:2, pointRadius:3, pointBackgroundColor:'#fff', fill:true, backgroundColor:'rgba(255,255,255,0.1)', tension:0.4 }] },
     options:{ plugins:{legend:{display:false}}, scales:{y:{display:false},x:{display:false}}, animation:{duration:1000} }
   });
 }
@@ -1327,11 +1390,19 @@ function switchChart(mode) {
   document.getElementById('btnBulanan')?.classList.toggle('active', mode==='bulanan');
   document.getElementById('btnQuater')?.classList.toggle('active', mode==='quater');
   if (!window.barChartInst) return;
-  window.barChartInst.data.datasets[0].data = mode==='bulanan'
-    ? [2.80,2.10,3.10,1.50,2.60,1.60] : [3.41,2.38,3.31,1.79,2.95,1.80];
+  const factors = AppState.factorAverages;
+  const values = factors ? [
+    parseFloat(factors.avg_ov_5) || 0,
+    parseFloat(factors.avg_ops_5) || 0,
+    parseFloat(factors.avg_weq_5) || 0,
+    parseFloat(factors.avg_ins_5) || 0,
+    parseFloat(factors.avg_ldi_5) || 0,
+    parseFloat(factors.avg_ect_5) || 0,
+  ] : [0,0,0,0,0,0];
+  window.barChartInst.data.datasets[0].data = values;
   window.barChartInst.options.animation = {duration:700,easing:'easeOutQuart'};
   window.barChartInst.update();
-  showToast(`Tampilan: ${mode==='bulanan'?'Bulanan':'Per Kuarter'}`);
+  if (AppState.umkmData.length) showToast(`Tampilan: ${mode==='bulanan'?'Bulanan':'Per Kuartal'}`);
 }
 
 function initSpiderChart() {
@@ -1339,19 +1410,19 @@ function initSpiderChart() {
   destroyChart('spiderChart');
   
   const fa = AppState.factorAverages;
-  const ins = fa ? (parseFloat(fa.avg_ins_5) || 1.79) : 1.79;
-  const ldi = fa ? (parseFloat(fa.avg_ldi_5) || 2.95) : 2.95;
-  const weq = fa ? (parseFloat(fa.avg_weq_5) || 3.31) : 3.31;
-  const ov  = fa ? (parseFloat(fa.avg_ov_5)  || 3.41) : 3.41;
-  const ops = fa ? (parseFloat(fa.avg_ops_5) || 2.38) : 2.38;
-  const ect = fa ? (parseFloat(fa.avg_ect_5) || 1.80) : 1.80;
+  const ins = fa ? (parseFloat(fa.avg_ins_5) || 0) : 0;
+  const ldi = fa ? (parseFloat(fa.avg_ldi_5) || 0) : 0;
+  const weq = fa ? (parseFloat(fa.avg_weq_5) || 0) : 0;
+  const ov  = fa ? (parseFloat(fa.avg_ov_5)  || 0) : 0;
+  const ops = fa ? (parseFloat(fa.avg_ops_5) || 0) : 0;
+  const ect = fa ? (parseFloat(fa.avg_ect_5) || 0) : 0;
 
   window.spiderChartInst = new Chart(document.getElementById('spiderChart'), {
     type:'radar',
     data:{labels:['Sumber Daya','Kepemimpinan','Proses','Budaya','Inovasi','Eksternal'],
           datasets:[
             {label:'Skor Aktual',data:[ins,ldi,weq,ov,ops,ect],backgroundColor:'rgba(26,86,219,0.18)',borderColor:'#1a56db',pointBackgroundColor:'#1a56db',borderWidth:2.5,pointRadius:5},
-            {label:'Benchmark',data:[2.5,2.5,2.5,2.5,2.5,2.5],backgroundColor:'transparent',borderColor:'#d1d5db',borderDash:[5,5],borderWidth:1.5,pointRadius:3}
+            {label:'Tolok Ukur',data:[0,0,0,0,0,0],backgroundColor:'transparent',borderColor:'#d1d5db',borderDash:[5,5],borderWidth:1.5,pointRadius:3}
           ]},
     options:{scales:{r:{beginAtZero:true,max:5,ticks:{stepSize:1,backdropColor:'transparent'},pointLabels:{font:{size:11,weight:'700'}},grid:{color:'#e5e7eb'}}},plugins:{legend:{display:false}},animation:{duration:1200}}
   });
@@ -1374,13 +1445,14 @@ function initDistCharts() {
       const vals = chart.data.datasets[0].data;
       const s = [...vals].sort((a,b)=>b-a);
       const t1 = s[0], t2 = s[1];
+      if (!t1) return;
       dataArr.forEach((bar, i) => {
         if (vals[i] === t1 || vals[i] === t2) {
           ctx.save();
           ctx.fillStyle = '#1e3a8a';
           ctx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText('Peak', bar.x, bar.y - 8);
+          ctx.fillText('Puncak', bar.x, bar.y - 8);
           ctx.restore();
         }
       });
@@ -1423,8 +1495,6 @@ function initCompCharts() {
   
   // Calculate dynamic data based on UMKM count per month
   let trendData = [0, 0, 0, 0];
-  let dummyCount = 0;
-  
   AppState.umkmData.forEach(u => {
       if (u.tanggal) {
           const ud = new Date(u.tanggal);
@@ -1433,22 +1503,10 @@ function initCompCharts() {
           if (idx !== -1) {
               trendData[idx] += 1;
           }
-      } else {
-          dummyCount += 1;
       }
   });
   
-  // Distribute dummy data over the 4 months to maintain visual base
-  if (dummyCount > 0) {
-      const ratios = [1.5, 1.8, 3.2, 2.8];
-      const sum = 9.3;
-      trendData[0] += Math.round(dummyCount * (ratios[0]/sum));
-      trendData[1] += Math.round(dummyCount * (ratios[1]/sum));
-      trendData[2] += Math.round(dummyCount * (ratios[2]/sum));
-      trendData[3] += Math.round(dummyCount * (ratios[3]/sum));
-  }
-  
-  new Chart(document.getElementById('trendChart'),{
+  window.trendChartInst = new Chart(document.getElementById('trendChart'),{
     type:'bar',
     data:{
       labels:monthLabels,
@@ -1478,15 +1536,15 @@ function filterPipa(btn, type) {
 // ═══════════════════════════════════════════════════════════════
 function exportOutlierData() {
   if (!AppState.outliers || AppState.outliers.length === 0) {
-    showToast('Tidak ada data outlier untuk diekspor.', 'warning');
+    showToast('Tidak ada data pencilan untuk diekspor.', 'warning');
     return;
   }
   
-  showToast('Menyiapkan file CSV data anomali...', 'success');
+  showToast('Menyiapkan berkas CSV data pencilan...', 'success');
   
   // CSV Header
   let csvContent = "data:text/csv;charset=utf-8,";
-  csvContent += "ID UMKM,Z-Score Deviation,Tipe Anomali\n";
+  csvContent += "ID UMKM,Deviasi Skor-Z,Jenis Pencilan\n";
   
   // Add rows
   AppState.outliers.forEach(o => {
@@ -1500,7 +1558,7 @@ function exportOutlierData() {
   const link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   const dateStr = new Date().toISOString().split('T')[0];
-  link.setAttribute("download", `outlier_anomalies_${dateStr}.csv`);
+  link.setAttribute("download", `data_pencilan_${dateStr}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -1509,13 +1567,38 @@ function exportOutlierData() {
 // ═══════════════════════════════════════════════════════════════
 //  INIT DASHBOARD
 // ═══════════════════════════════════════════════════════════════
+
 async function initDashboard() {
   AppState.chartsInit = {};
-  await loadUmkmData();
-  updateUserDisplay();
+
+  // Ambil halaman terakhir yang dibuka
   const savedPage = sessionStorage.getItem('nexa_page');
-  const pageToRestore = savedPage && document.getElementById('page-' + savedPage)
-    ? savedPage
-    : 'home';
+
+  const pageToRestore =
+    savedPage && document.getElementById('page-' + savedPage)
+      ? savedPage
+      : 'home';
+
+  // Pulihkan halaman sebelum memuat data Supabase
   navigate(pageToRestore);
+
+  // Muat data UMKM
+  await loadUmkmData();
+
+  // Perbarui nama pengguna
+  updateUserDisplay();
+
+  // Perbarui tampilan dengan data terbaru
+  applyDynamicData();
+
+  if (
+    pageToRestore === 'home' ||
+    pageToRestore === 'factor' ||
+    pageToRestore === 'distribution' ||
+    pageToRestore === 'comparison'
+  ) {
+    await loadDashboardData();
+  }
 }
+
+  navigate(pageToRestore);

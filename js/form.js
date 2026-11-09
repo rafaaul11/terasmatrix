@@ -1,40 +1,40 @@
 // ── Question definitions ───────────────────────────────────────
 const OWNER_QUESTIONS = {
-  INS:{ key:'INS',label:'Sumber Daya (INS) — Institutional Resources',color:'#dc2626',bgColor:'#fee2e2',
+  INS:{ key:'INS',label:'A. Sumber Daya (INS) — 6 pertanyaan',color:'#dc2626',bgColor:'#fee2e2',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
-    description:'Ketersediaan sumber daya kelembagaan dan dukungan eksternal untuk bisnis.',type:'radio3',maxVal:3,
+    description:'Skala 1–3: kondisi belum terpenuhi, sebagian terpenuhi, dan terpenuhi sepenuhnya.',type:'radio3',maxVal:3,
     questions:[
-      {id:'ins_oh1',text:'Apakah bisnis Anda memiliki Nomor Induk Berusaha (NIB)?',options:['1 = Tidak','2 = Dalam Proses','3 = Ya']},
-      {id:'ins_oh2',text:'Apakah Anda pernah menerima bantuan pendanaan dari pemerintah?',options:['1 = Tidak','2 = Dalam Proses','3 = Ya']},
-      {id:'ins_oh3',text:'Apakah Anda pernah mengikuti kegiatan yang diselenggarakan pemerintah?',options:['1 = Tidak','2 = Dalam Proses','3 = Ya']},
-      {id:'ins_oh4',text:'Apakah Anda berkolaborasi dengan pedagang atau bisnis lain?',options:['1 = Tidak','2 = Dalam Proses','3 = Ya']},
-      {id:'ins_oh5',text:'Apakah Anda menggunakan pemasaran digital untuk mempromosikan bisnis?',options:['1 = Tidak','2 = Dalam Proses','3 = Ya']},
-      {id:'ins_oh6',text:'Apa sumber modal keuangan utama bisnis Anda?',options:['1 = Modal Sendiri','2 = Keluarga','3 = Bank/Kredit']},
+      {id:'ins_oh1',text:'Apakah usaha Anda sudah memiliki Nomor Induk Berusaha (NIB)?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
+      {id:'ins_oh2',text:'Sejauh mana usaha Anda memiliki akses terhadap sumber pendanaan yang dibutuhkan?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
+      {id:'ins_oh3',text:'Sejauh mana usaha Anda memanfaatkan program pelatihan atau pendampingan untuk pengembangan usaha?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
+      {id:'ins_oh4',text:'Sejauh mana usaha Anda menjalin kerja sama dengan pemasok atau pelaku usaha lain?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
+      {id:'ins_oh5',text:'Sejauh mana usaha Anda memanfaatkan pemasaran digital?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
+      {id:'ins_oh6',text:'Sejauh mana modal yang tersedia mampu memenuhi kebutuhan usaha?',options:['1 = Belum terpenuhi','2 = Sebagian terpenuhi','3 = Terpenuhi sepenuhnya']},
     ]},
-  ECT:{ key:'ECT',label:'Eksternal (ECT) — Economic Connectivity',color:'#0891b2',bgColor:'#e0f2fe',
+  ECT:{ key:'ECT',label:'C. Eksternal (ECT) — 4 pernyataan',color:'#0891b2',bgColor:'#e0f2fe',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>`,
-    description:'Kinerja ekonomi dan konektivitas bisnis dengan pasar eksternal.',type:'likert5',maxVal:5,
+    description:'Nilai setiap pernyataan pada skala 1–5.',type:'likert5',maxVal:5,
     questions:[
-      {id:'ect_oh32',text:'Kemampuan bisnis kami menjangkau pasar atau pelanggan baru sangat baik'},
-      {id:'ect_oh33',text:'Pertumbuhan penjualan bisnis kami selama setahun terakhir sangat memuaskan'},
-      {id:'ect_oh34',text:'Liabilitas bisnis kami (pinjaman, utang) sangat dapat dikelola'},
-      {id:'ect_oh35',text:'Situasi arus kas bisnis kami sangat sehat dan stabil'},
+      {id:'ect_oh32',text:'Kondisi permintaan pasar memberikan peluang bagi perkembangan usaha saya.'},
+      {id:'ect_oh33',text:'Usaha saya mampu menghadapi persaingan dengan pelaku usaha lain di pasar.'},
+      {id:'ect_oh34',text:'Ketersediaan bahan baku dan dukungan pemasok membantu kelancaran kegiatan usaha saya.'},
+      {id:'ect_oh35',text:'Perubahan kondisi ekonomi dan harga pasar masih dapat dihadapi oleh usaha saya dengan baik.'},
     ]},
-  OPS:{ key:'OPS',label:'Inovasi (OPS) — Operational Stability',color:'#d97706',bgColor:'#fef3c7',
+  OPS:{ key:'OPS',label:'B. Inovasi (OPS) — 6 pernyataan',color:'#d97706',bgColor:'#fef3c7',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
-    description:'Stabilitas operasional dan kemampuan bisnis mengelola proses sehari-hari.',type:'likert5',maxVal:5,
+    description:'Nilai setiap pernyataan pada skala 1–5.',type:'likert5',maxVal:5,
     questions:[
-      {id:'ops_oh26',text:'Modal kerja mencukupi untuk operasional bisnis sehari-hari'},
-      {id:'ops_oh27',text:'Perusahaan mampu membayar gaji karyawan tepat waktu'},
-      {id:'ops_oh28',text:'Peralatan/mesin dalam kondisi baik dan berfungsi optimal'},
-      {id:'ops_oh29',text:'Rantai pasokan bisnis berjalan lancar tanpa gangguan signifikan'},
-      {id:'ops_oh30',text:'Permintaan produk/jasa dapat diprediksi dengan baik'},
-      {id:'ops_oh31',text:'Kualitas hubungan jangka panjang bisnis dengan pelanggan sangat baik'},
+      {id:'ops_oh26',text:'Usaha saya secara berkala melakukan pengembangan atau perbaikan produk maupun layanan.'},
+      {id:'ops_oh27',text:'Usaha saya mampu menyesuaikan produk atau layanan berdasarkan kebutuhan dan masukan pelanggan.'},
+      {id:'ops_oh28',text:'Usaha saya memanfaatkan teknologi digital untuk meningkatkan efektivitas kegiatan usaha.'},
+      {id:'ops_oh29',text:'Usaha saya secara aktif mencari cara baru untuk meningkatkan efisiensi operasional.'},
+      {id:'ops_oh30',text:'Usaha saya mampu beradaptasi terhadap perubahan tren dan kebutuhan pasar.'},
+      {id:'ops_oh31',text:'Usaha saya memiliki kemampuan untuk menerapkan ide atau strategi baru dalam pengembangan bisnis.'},
     ]},
 };
 
 const EMPLOYEE_QUESTIONS = {
-  OV:{ key:'OV',label:'Budaya (OV) — Organizational Values',color:'#7c3aed',bgColor:'#ede9fe',
+  OV:{ key:'OV',label:'Budaya (OV) — Nilai Organisasi',color:'#7c3aed',bgColor:'#ede9fe',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>`,
     description:'Evaluasi terhadap nilai-nilai organisasi, budaya, dan integritas.',type:'likert5',maxVal:5,
     questions:[
@@ -47,7 +47,7 @@ const EMPLOYEE_QUESTIONS = {
       {id:'ov_oh24',text:'Karyawan di tempat kerja saya saling menghormati'},
       {id:'ov_oh25',text:'Karyawan di tempat kerja saya memandang pekerjaan sebagai bentuk dedikasi'},
     ]},
-  LDI:{ key:'LDI',label:'Kepemimpinan (LDI) — Leader Involvement',color:'#059669',bgColor:'#d1fae5',
+  LDI:{ key:'LDI',label:'Kepemimpinan (LDI) — Keterlibatan Pemimpin',color:'#059669',bgColor:'#d1fae5',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>`,
     description:'Sejauh mana manajemen terlibat aktif dalam operasional dan pengembangan SDM.',type:'likert5',maxVal:5,
     questions:[
@@ -58,7 +58,7 @@ const EMPLOYEE_QUESTIONS = {
       {id:'ldi_oh11',text:'Pemimpin Anda aktif berpartisipasi dalam melatih karyawan baru'},
       {id:'ldi_oh12',text:'Pemimpin Anda memperlakukan karyawan secara adil dalam memberi sanksi dan penghargaan'},
     ]},
-  WEQ:{ key:'WEQ',label:'Proses (WEQ) — Work Environment Quality',color:'#1a56db',bgColor:'#dbeafe',
+  WEQ:{ key:'WEQ',label:'Proses (WEQ) — Kualitas Lingkungan Kerja',color:'#1a56db',bgColor:'#dbeafe',
     icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
     description:'Kualitas lingkungan dan proses kerja yang mendukung produktivitas karyawan.',type:'likert5',maxVal:5,
     questions:[
@@ -73,7 +73,7 @@ const EMPLOYEE_QUESTIONS = {
 // ── Draft Preview Modal ────────────────────────────────────────
 function openPreviewModal() {
   const groups = getActiveGroups();
-  let html = `<div style="margin-bottom:15px;font-size:13px;color:var(--gray-600)">Berikut rangkuman jawaban yang sudah Anda pilih:</div>`;
+  let html = `<div style="margin-bottom:15px;font-size:13px;color:var(--gray-600)">Berikut ringkasan jawaban yang sudah Anda pilih:</div>`;
   let allAnswered = true;
   let totalMissing = 0;
 
@@ -96,7 +96,7 @@ function openPreviewModal() {
           <span style="font-weight:700;font-size:14px;color:${color}">${scoreText}</span>
         </div>
         <div style="font-size:11px;color:var(--gray-500)">
-          Progres: ${answered} / ${g.questions.length} dijawab ${missing > 0 ? `<span style="color:var(--danger);font-weight:600">(${missing} terlewat)</span>` : ''}
+          Progres: ${answered} / ${g.questions.length} dijawab ${missing > 0 ? `<span style="color:var(--danger);font-weight:600">(${missing} belum dijawab)</span>` : ''}
         </div>
       </div>
     `;
@@ -110,7 +110,7 @@ function openPreviewModal() {
   } else {
     html = `<div style="background:#d1fae5;color:#047857;padding:12px;border-radius:8px;margin-bottom:15px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      Luar biasa! Seluruh pertanyaan telah terjawab dengan lengkap.
+      Bagus! Seluruh pertanyaan telah dijawab dengan lengkap.
     </div>` + html;
   }
 
@@ -157,7 +157,7 @@ function buildFormSections() {
   if (!c) return;
   const role = getCurrentRole();
   const groups = getActiveGroups();
-  const rl = role === 'employee' ? '👤 Pegawai' : '👔 Owner';
+  const rl = role === 'employee' ? '👤 Pegawai' : '👔 Pemilik UMKM';
   const rc = role === 'employee' ? '#7c3aed' : '#1a56db';
   const rb = role === 'employee' ? '#ede9fe'  : '#dbeafe';
 
@@ -202,11 +202,11 @@ function buildSectionHTML(cfg) {
 function buildRow(q, type, idx) {
   if (type === 'likert5') return `
     <div class="form-row" style="flex-wrap:nowrap;gap:0">
-      <div class="form-label" style="padding-right:16px;flex:1">${idx+1}.</div>
+      <div class="form-label" style="padding-right:16px;flex:1">${idx+1}. ${q.text}</div>
       <div style="display:flex;gap:12px;flex-shrink:0;align-items:center">
         ${[1,2,3,4,5].map(v=>`
           <label style="cursor:pointer;display:flex;flex-direction:column;align-items:center">
-            <input type="radio" name="${q.id}" value="${v}" aria-label="Pertanyaan ${idx+1}, jawaban ${v}" style="position:absolute;opacity:0;width:0;height:0">
+            <input type="radio" name="${q.id}" value="${v}" aria-label="${q.text} Jawaban ${v}" style="position:absolute;opacity:0;width:0;height:0">
             <span class="likert-dot" data-name="${q.id}" data-val="${v}"
               style="width:22px;height:22px;border-radius:50%;border:2px solid var(--gray-300);background:#fff;
                      display:flex;align-items:center;justify-content:center;transition:all 0.15s;cursor:pointer"></span>
@@ -215,7 +215,7 @@ function buildRow(q, type, idx) {
     </div>`;
   if (type === 'radio3') return `
     <div class="form-row" style="flex-direction:column;align-items:flex-start;gap:10px">
-      <div class="form-label" style="font-weight:600">${idx+1}.</div>
+      <div class="form-label" style="font-weight:600">${idx+1}. ${q.text}</div>
       <div class="radio-group">
         ${q.options.map((opt,vi)=>`
           <label class="radio-option">
@@ -358,7 +358,7 @@ async function saveEvaluasi() {
 
   } catch(e) {
     if (btn) { btn.disabled = false; btn.textContent = 'Simpan Evaluasi'; }
-    showToast('Tidak dapat terhubung ke server. Pastikan XAMPP aktif.', 'error');
+    showToast(e.message || 'Tidak dapat terhubung ke Supabase. Periksa konfigurasi dan koneksi internet.', 'error');
   }
 }
 
@@ -434,7 +434,7 @@ function showFeedbackPopup(data, elapsed) {
       <div style="display:flex;gap:10px">
         <button onclick="document.getElementById('feedbackPopup').remove();navigate('home')"
           style="flex:1;padding:12px;background:var(--primary);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit">
-          Lihat Dashboard
+          Lihat Dasbor
         </button>
         <button onclick="document.getElementById('feedbackPopup').remove()"
           style="padding:12px 18px;background:#fff;border:1.5px solid #cbd5ce;border-radius:10px;color:#29372e;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit">

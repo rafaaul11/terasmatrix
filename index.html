@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TerasMatrix – Dashboard Kesehatan Organisasi</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="TerasMatrix membantu UMKM memahami kesehatan organisasi melalui penilaian yang ringkas dan terukur.">
+<title>TerasMatrix – Dasbor Kesehatan Organisasi</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="stylesheet" href="css/auth.css">
 <link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/classic.css">
 </head>
 <body>
 
@@ -16,10 +17,8 @@
   <nav class="landing-nav">
     <div class="landing-brand">TerasMatrix</div>
     <div class="landing-nav-links">
-      <a class="landing-nav-link">Fitur</a>
-      <a class="landing-nav-link">Tentang</a>
-      <a class="landing-nav-link">Harga</a>
-      <a class="landing-nav-link">Kontak</a>
+      <a class="landing-nav-link" href="#features">Fitur</a>
+      <a class="landing-nav-link" href="#about">Tentang</a>
     </div>
     <div class="landing-nav-btns">
       <button class="btn-nav-outline" onclick="showView('login')">Masuk</button>
@@ -30,55 +29,55 @@
   <!-- Hero -->
   <section class="landing-hero">
     <div class="hero-content">
-      <div class="hero-badge">Platform Analitik Klinis UMKM #1 Indonesia</div>
+      <div class="hero-badge">Ruang ukur kesehatan organisasi UMKM</div>
       <h1 class="hero-title">Bangun Ekosistem UMKM<br>yang <span>Sehat &amp; Terukur</span></h1>
-      <p class="hero-desc">Platform analitik klinis untuk membantu UMKM modern meningkatkan kepatuhan dan mengelola risiko. Pantau enam faktor kesehatan organisasi secara langsung.</p>
+      <p class="hero-desc">Alat sederhana untuk membantu UMKM memahami kesehatan organisasi dan menentukan area yang perlu diperkuat.</p>
       <div class="hero-btns">
         <button class="btn-hero-primary" onclick="showView('register')">Mulai Sekarang →</button>
         <button class="btn-hero-outline" onclick="showView('login')">Lihat Demo</button>
       </div>
       <div class="hero-stats">
         <div>
-          <div class="hero-stat-num">428+</div>
-          <div class="hero-stat-label">UMKM Terdaftar</div>
+          <div class="hero-stat-num">2</div>
+          <div class="hero-stat-label">Peran Pengguna</div>
         </div>
         <div>
-          <div class="hero-stat-num">99.9%</div>
-          <div class="hero-stat-label">Akurasi Data</div>
+          <div class="hero-stat-num">35</div>
+          <div class="hero-stat-label">Pertanyaan Terukur</div>
         </div>
         <div>
           <div class="hero-stat-num">6</div>
           <div class="hero-stat-label">Faktor Kesehatan</div>
         </div>
         <div>
-          <div class="hero-stat-num">Real-time</div>
-          <div class="hero-stat-label">Analitik Live</div>
+          <div class="hero-stat-num">Supabase</div>
+          <div class="hero-stat-label">Penyimpanan Data</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Features -->
-  <section class="landing-features">
+  <section class="landing-features" id="features">
     <div class="section-header-center">
       <div class="section-label">KENAPA TERASMATRIX?</div>
       <h2 class="section-title-lg">Semua yang Anda Butuhkan<br>dalam Satu Platform</h2>
-      <p class="section-desc">TerasMatrix mendukung perkembangan bisnis Anda, mulai dari penilaian kesehatan hingga rekomendasi strategis.</p>
+      <p class="section-desc" id="about">TerasMatrix membantu usaha memahami kondisi organisasi, menemukan area perbaikan, dan menyusun langkah kerja yang lebih terarah.</p>
     </div>
     <div class="features-grid">
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <div class="feature-title">Terverifikasi Standar Klinis</div>
-        <div class="feature-desc">Data dengan akurasi 99.9% membantu kebutuhan audit kepatuhan, didukung metodologi dari riset akademik terbaru.</div>
+        <div class="feature-title">Penilaian Terstruktur</div>
+        <div class="feature-desc">Rangkuman yang terstruktur membantu pemilik usaha meninjau kondisi operasional dengan lebih mudah.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
-        <div class="feature-title">Analitik Real-time</div>
-        <div class="feature-desc">Lihat kondisi operasional bisnis kapan saja melalui dasbor interaktif yang diperbarui secara berkala.</div>
+        <div class="feature-title">Ringkasan Organisasi</div>
+        <div class="feature-desc">Tinjau skor penilaian dan profil faktor untuk membantu diskusi perbaikan internal.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
@@ -91,22 +90,22 @@
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 22 22 7 12 2"/></svg>
         </div>
-        <div class="feature-title">AI Performance Insight</div>
-        <div class="feature-desc">Kecerdasan buatan menyajikan saran praktis untuk membantu meningkatkan kinerja UMKM.</div>
+        <div class="feature-title">Arah Perbaikan</div>
+        <div class="feature-desc">Gunakan hasil penilaian untuk mengenali faktor yang perlu mendapat perhatian lebih dahulu.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         </div>
-        <div class="feature-title">Multi-Role Access</div>
-        <div class="feature-desc">Owner dan Pegawai mendapat akses ke tampilan serta formulir penilaian yang disesuaikan dengan perannya.</div>
+        <div class="feature-title">Akses Multi-Peran</div>
+        <div class="feature-desc">Pemilik dan pegawai mendapat akses ke tampilan serta formulir penilaian yang disesuaikan dengan perannya.</div>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </div>
         <div class="feature-title">Ekspor Laporan</div>
-        <div class="feature-desc">Unduh laporan lengkap sebagai PDF atau Excel untuk keperluan akreditasi maupun audit eksternal.</div>
+        <div class="feature-desc">Ekspor ringkasan data penilaian dalam format CSV untuk diolah kembali.</div>
       </div>
     </div>
   </section>
@@ -114,16 +113,16 @@
   <!-- CTA -->
   <section class="landing-cta">
     <h2 class="cta-title">Siap Membawa UMKM Anda Menjadi Lebih Sehat?</h2>
-    <p class="cta-desc">Bergabunglah bersama 428+ UMKM yang memakai TerasMatrix untuk memantau dan memperbaiki kesehatan organisasinya.</p>
+    <p class="cta-desc">Mulai dengan penilaian sederhana untuk melihat area yang sudah kuat dan hal yang dapat diperbaiki.</p>
     <div class="cta-btns">
       <button class="btn-cta-white" onclick="showView('register')">Daftar Sekarang — Gratis</button>
-      <button class="btn-cta-outline" onclick="showView('login')">Login ke Dashboard</button>
+      <button class="btn-cta-outline" onclick="showView('login')">Masuk ke Dasbor</button>
     </div>
   </section>
 
   <footer class="landing-footer">
     <div class="footer-logo">TerasMatrix</div>
-    <div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div>
+    <div>© 2026 TerasMatrix</div>
     <div style="display:flex;gap:16px">
       <span style="cursor:pointer" onclick="showToast('Pusat Bantuan dibuka')">Bantuan</span>
       <span style="cursor:pointer" onclick="showToast('Kebijakan Privasi dibuka')">Privasi</span>
@@ -137,15 +136,15 @@
   <div class="auth-left">
     <div class="auth-brand" onclick="showView('landing')" style="cursor:pointer">TerasMatrix</div>
     <div class="auth-brand-tagline">Mewujudkan Ekosistem UMKM yang Sehat &amp; Terukur.</div>
-    <p class="auth-brand-desc">Platform analitik klinis untuk mendukung UMKM modern dalam meningkatkan kepatuhan dan mengelola risiko.</p>
+    <p class="auth-brand-desc">Alat sederhana untuk membantu UMKM memahami kesehatan organisasi.</p>
     <div class="auth-features">
       <div class="auth-feature">
         <div class="auth-feature-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <div>
-          <div class="auth-feature-title">Terverifikasi Standar Klinis</div>
-          <div class="auth-feature-desc">Data akurat hingga 99.9% untuk mendukung audit kepatuhan.</div>
+          <div class="auth-feature-title">Penilaian Terstruktur</div>
+          <div class="auth-feature-desc">Rangkuman penilaian tersimpan untuk ditinjau kembali.</div>
         </div>
       </div>
       <div class="auth-feature">
@@ -175,28 +174,28 @@
   <nav id="sidebar">
     <div class="sidebar-logo">
       <div class="brand">TerasMatrix</div>
-      <div class="tagline">UMKM Health Dashboard</div>
+      <div class="tagline">Dasbor Kesehatan UMKM</div>
     </div>
     <div class="sidebar-nav">
       <button class="nav-item active" onclick="navigate('home')" data-page="home">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-        Home
+        Beranda
       </button>
       <button class="nav-item" onclick="navigate('factor')" data-page="factor">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-        Factor Profile
+        Profil Faktor
       </button>
       <button class="nav-item" onclick="navigate('distribution')" data-page="distribution">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Distribution
+        Distribusi
       </button>
       <button class="nav-item" onclick="navigate('comparison')" data-page="comparison">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-        Comparison
+        Perbandingan
       </button>
       <button class="nav-item" onclick="navigate('umkmrec')" data-page="umkmrec">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        UMKM &amp; Recommendations
+        UMKM &amp; Rekomendasi
       </button>
       <button class="nav-item" onclick="navigate('formdata')" data-page="formdata">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><path d="M3 9V7a2 2 0 0 1 2-2h2"/><path d="M21 9V7a2 2 0 0 0-2-2h-2"/></svg>
@@ -210,12 +209,12 @@
       </button>
       <button class="nav-item" onclick="navigate('help')" data-page="help">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Help
+        Bantuan
       </button>
 
       <button class="nav-item" style="color:var(--danger)" onclick="showModal('logoutModal')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Logout
+        Keluar
       </button>
     </div>
   </nav>
@@ -232,7 +231,7 @@
     <div class="topbar-actions">
       <button class="icon-btn" onclick="navigate('notifications')" data-page="notifications">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <span class="notif-badge"></span>
+        <span class="notif-badge" hidden></span>
       </button>
       <button class="icon-btn" onclick="showToast('Pengaturan dibuka','success')">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -242,7 +241,7 @@
         <div class="dropdown-menu" id="profileDrop">
           <div class="dropdown-item" onclick="navigate('profile')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profil Saya</div>
           <div class="dropdown-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg> Pengaturan</div>
-          <div class="dropdown-item danger" onclick="showModal('logoutModal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/></svg> Logout</div>
+          <div class="dropdown-item danger" onclick="showModal('logoutModal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/></svg> Keluar</div>
         </div>
       </div>
     </div>
@@ -251,12 +250,12 @@
   <!-- MAIN PAGES -->
   <main id="main">
 
-    <!-- HOME PAGE -->
+        <!-- HOME PAGE -->
     <div class="page active" id="page-home">
-      <div class="welcome-bar">
-        <div>
-          <h2>Selamat Datang, <span class="welcome-name">User</span>!</h2>
-          <p>Persentase kesehatan ekosistem UMKM hari ini.</p>
+      <div class="page-header-row page-intro page-intro-row">
+        <div class="page-header" style="margin-bottom:0">
+          <h1>Selamat datang, <span class="user-name"></span>!</h1>
+          <p>Kenali kondisi usahamu. Tentukan langkah berikutnya.</p>
         </div>
         <div class="ml-auto">
           <div class="dropdown-wrap">
@@ -268,7 +267,7 @@
               <div class="dropdown-item" onclick="filterByKategori('semua')">🔍 Semua UMKM</div>
               <div class="dropdown-item" onclick="filterByKategori('kuliner')">🍜 Kuliner</div>
               <div class="dropdown-item" onclick="filterByKategori('kerajinan')">🎨 Kerajinan</div>
-              <div class="dropdown-item" onclick="filterByKategori('ritel')">🛒 Ritel</div>
+              <div class="dropdown-item" onclick="filterByKategori('ritel')">🛒 Grosir dan Ritel</div>
               <div class="dropdown-item" onclick="filterByKategori('kesehatan')">💊 Kesehatan</div>
             </div>
           </div>
@@ -277,19 +276,19 @@
 
       <div class="stats-grid">
         <div class="stat-card">
-          <div><div class="stat-label">Total UMKM</div><div class="stat-value" id="stat-total-umkm">428</div><div class="stat-sub up">↑ +12% bulan ini</div></div>
+          <div><div class="stat-label">Total UMKM</div><div class="stat-value" id="stat-total-umkm">0</div><div class="stat-sub gray">Belum ada penilaian</div></div>
           <div class="stat-icon blue"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
         </div>
         <div class="stat-card">
-          <div><div class="stat-label">Sehat (&gt;3)</div><div class="stat-value" id="stat-sehat-pct">19%</div><div class="stat-sub gray">Dari total populasi</div></div>
+          <div><div class="stat-label">Sehat (&gt;3)</div><div class="stat-value" id="stat-sehat-pct">—</div><div class="stat-sub gray">Belum tersedia</div></div>
           <div class="stat-icon green"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         </div>
         <div class="stat-card">
-          <div><div class="stat-label">Skor Terbaik</div><div class="stat-value" id="stat-best-score">3.85</div><div class="stat-sub gray">Kategori: Sangat Baik</div></div>
+          <div><div class="stat-label">Skor Terbaik</div><div class="stat-value" id="stat-best-score">—</div><div class="stat-sub gray">Belum tersedia</div></div>
           <div class="stat-icon orange"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
         </div>
         <div class="stat-card danger-border">
-          <div><div class="stat-label">Skor Terburuk</div><div class="stat-value danger" id="stat-worst-score">1.57</div><div class="stat-sub danger">Perlu intervensi segera</div></div>
+          <div><div class="stat-label">Skor Terburuk</div><div class="stat-value danger" id="stat-worst-score">—</div><div class="stat-sub gray">Belum tersedia</div></div>
           <div class="stat-icon red"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
         </div>
       </div>
@@ -299,12 +298,12 @@
           <div class="chart-title">Distribusi Kategori</div>
           <div class="donut-wrap">
             <canvas id="donutChart"></canvas>
-            <div class="donut-center"><div class="big" id="donut-total">428</div><div class="small">TOTAL UMKM</div></div>
+            <div class="donut-center"><div class="big" id="donut-total">0</div><div class="small">JUMLAH UMKM</div></div>
           </div>
           <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Buruk (28)</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#1a56db"></div>Cukup (317)</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Baik (83)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Buruk (0)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#1a56db"></div>Cukup (0)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Baik (0)</div>
             <div class="legend-item"><div class="legend-dot" style="background:#d1d5db"></div>Sangat Baik (0)</div>
           </div>
         </div>
@@ -326,22 +325,21 @@
       <div class="ai-banner">
         <div class="ai-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="12 2 2 7 12 22 22 7 12 2"/></svg></div>
         <div>
-          <div class="ai-badge">AI Performance Insight &nbsp; LIVE</div>
-          <div class="ai-text">"Mayoritas UMKM berada pada kategori cukup, menunjukkan perlunya peningkatan pada aspek kepemimpinan dan stabilitas inovasi."</div>
+          <div class="ai-badge">Wawasan Kinerja AI &nbsp; LANGSUNG</div>
+          <div class="ai-text" id="dashboard-insight">Belum ada data kuesioner untuk dianalisis.</div>
           <div class="ai-links">
-            <span class="ai-link" onclick="navigate('umkmrec')">Lihat Rekomendasi Detail →</span>
-            <span class="ai-link" onclick="showToast('Laporan AI diunduh','success')">Unduh Laporan AI ↓</span>
+            <span class="ai-link" onclick="navigate('umkmrec')">Lihat Data UMKM →</span>
           </div>
         </div>
         <div class="ai-trend">
-          <div class="ai-trend-label">TREND ANALISIS</div>
+          <div class="ai-trend-label">TREN ANALISIS</div>
           <canvas id="trendMini" width="140" height="50"></canvas>
-          <div class="ai-trend-val">+4.2% Skor Operasional</div>
+          <div class="ai-trend-val" id="dashboard-trend-label">Belum ada tren</div>
         </div>
       </div>
 
       <div class="page-footer">
-        <div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div>
+        <div>© 2026 TerasMatrix. Hak cipta dilindungi.</div>
         <div class="footer-links"><span class="footer-link" onclick="showToast('Pusat Bantuan dibuka')">Pusat Bantuan</span><span class="footer-link" onclick="showToast('Kebijakan Privasi dibuka')">Kebijakan Privasi</span></div>
       </div>
     </div>
@@ -349,63 +347,63 @@
 
     <!-- FACTOR PROFILE PAGE -->
     <div class="page" id="page-factor">
-      <div class="welcome-bar">
-        <div><h2>Selamat Datang, <span class="welcome-name">User</span>!</h2><p>Persentase kesehatan ekosistem UMKM hari ini.</p></div>
+      <div class="page-header page-intro factor-page-header">
+        <h1>Kenali Profil Usaha Anda</h1>
+        <p>Kenali enam faktor yang membantu memahami kondisi dan kesehatan usaha Anda.</p>
       </div>
-      <div class="page-header">
-        <h1>Profil 6 Faktor SiSEHAT</h1>
-        <p>Analisis menyeluruh tentang efektivitas berdasarkan kondisi operasional dan lingkungan kerja organisasi.</p>
-      </div>
-      <div class="factor-grid">
+      <div class="empty-data-state" id="factor-empty-state">Belum ada data kuesioner. Isi kuesioner untuk melihat profil faktor.</div>
+      <div class="factor-grid" id="factor-grid" hidden>
         <div class="spider-card">
-          <div class="chart-title">Spider Analysis</div>
+          <div class="chart-title">Analisis Radar</div>
           <div class="chart-sub">VISUALISASI 6 FAKTOR UTAMA</div>
-          <canvas id="spiderChart" height="300"></canvas>
+          <div class="spider-chart-wrap">
+            <canvas id="spiderChart"></canvas>
+          </div>
           <div style="display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--gray-500)">
             <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;border-radius:50%;background:var(--primary);display:inline-block"></span>Skor Aktual</span>
-            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;border-radius:50%;background:var(--gray-300);display:inline-block"></span>Benchmark Industri</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;border-radius:50%;background:var(--gray-300);display:inline-block"></span>Tolok Ukur Industri</span>
           </div>
         </div>
         <div class="factor-cards">
           <div class="factor-card">
-            <div class="factor-card-header"><div class="factor-icon" style="background:#fee2e2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><span class="factor-badge badge-low">LOW</span></div>
+            <div class="factor-card-header"><div class="factor-icon" style="background:#fee2e2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><span class="factor-badge badge-low">RENDAH</span></div>
             <div class="factor-name">SUMBER DAYA (INS)</div>
-            <div class="factor-score">1.79<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.53</div>
+            <div class="factor-score">—</div>
+              <div class="factor-dev">Belum ada data</div>
           </div>
           <div class="factor-card">
-            <div class="factor-card-header"><div class="factor-icon" style="background:#d1fae5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div><span class="factor-badge badge-good">GOOD</span></div>
+            <div class="factor-card-header"><div class="factor-icon" style="background:#d1fae5"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div><span class="factor-badge badge-good">BAIK</span></div>
             <div class="factor-name">KEPEMIMPINAN (LDI)</div>
-            <div class="factor-score">2.95<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.83</div>
+            <div class="factor-score">—</div>
+            <div class="factor-dev">Belum ada data</div>
           </div>
           <div class="factor-card">
             <div class="factor-card-header"><div class="factor-icon" style="background:#dbeafe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="factor-badge badge-optimal">OPTIMAL</span></div>
             <div class="factor-name">PROSES (WEQ)</div>
-            <div class="factor-score">3.31<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.84</div>
+            <div class="factor-score">—</div>
+            <div class="factor-dev">Belum ada data</div>
           </div>
           <div class="factor-card">
-            <div class="factor-card-header"><div class="factor-icon" style="background:#ede9fe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span class="factor-badge badge-peak">PEAK</span></div>
+            <div class="factor-card-header"><div class="factor-icon" style="background:#ede9fe"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span class="factor-badge badge-peak">SANGAT BAIK</span></div>
             <div class="factor-name">BUDAYA (OV)</div>
-            <div class="factor-score">3.41<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.90</div>
+            <div class="factor-score">—</div>
+            <div class="factor-dev">Belum ada data</div>
           </div>
           <div class="factor-card">
-            <div class="factor-card-header"><div class="factor-icon" style="background:#fef3c7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="factor-badge badge-average">AVERAGE</span></div>
+            <div class="factor-card-header"><div class="factor-icon" style="background:#fef3c7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span class="factor-badge badge-average">CUKUP</span></div>
             <div class="factor-name">INOVASI (OPS)</div>
-            <div class="factor-score">2.38<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.75</div>
+            <div class="factor-score">—</div>
+            <div class="factor-dev">Belum ada data</div>
           </div>
           <div class="factor-card">
-            <div class="factor-card-header"><div class="factor-icon" style="background:#fee2e2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><span class="factor-badge badge-critical">CRITICAL</span></div>
+            <div class="factor-card-header"><div class="factor-icon" style="background:#fee2e2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><span class="factor-badge badge-critical">KRITIS</span></div>
             <div class="factor-name">EKSTERNAL (ECT)</div>
-            <div class="factor-score">1.80<span> / 5.0</span></div>
-            <div class="factor-dev">Std. Deviasi &nbsp; 0.75</div>
+            <div class="factor-score">—</div>
+            <div class="factor-dev">Belum ada data</div>
           </div>
         </div>
       </div>
-      <div style="margin-top:16px">
+      <div style="margin-top:16px" id="factor-summary" hidden>
         <div class="card">
           <div class="chart-title" style="margin-bottom:16px">Ringkasan Eksekutif</div>
           <div class="exec-grid">
@@ -423,40 +421,75 @@
             </div>
             <div class="consult-card">
               <div class="consult-title">Butuh Bantuan Analisis?</div>
-              <div class="consult-text">Konsultasikan hasil diagnosa organisasi Anda dengan tim ahli Clinical Curator untuk rekomendasi strategis.</div>
+              <div class="consult-text">Konsultasikan hasil diagnosis organisasi Anda dengan tim kurator klinis untuk mendapatkan rekomendasi strategis.</div>
               <button class="btn-consult" onclick="window.open('https://wa.me/6289505347992?text=Halo%2C%20saya%20ingin%20konsultasi%20mengenai%20kesehatan%20UMKM%20saya.','_blank')">Hubungi Konsultan via WhatsApp (0895-0534-7992) 💬</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="page-footer"><div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
+      <div class="page-footer"><div>© 2026 TerasMatrix. Hak cipta dilindungi.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
     </div>
     <!-- END FACTOR -->
 
+    
     <!-- DISTRIBUTION PAGE -->
-    <div class="page" id="page-distribution">
-      <div class="welcome-bar">
-        <div><h2>Selamat Datang, <span class="welcome-name">User</span>!</h2><p>Persentase kesehatan ekosistem UMKM hari ini.</p></div>
+      <div class="page" id="page-distribution">
+      <div class="page-header page-intro factor-page-header distribution-header">
+        <div>
+          <h1>Distribusi Skor UMKM</h1>
+          <p id="distribution-intro">
+            Belum ada evaluasi tervalidasi dengan skor.
+            Isi dan simpan Form Data terlebih dahulu.
+          </p>
+        </div>
+        <span class="distribution-scale">Skala 0–5</span>
       </div>
-      <div class="dist-grid">
+
+
+        <!-- Kode distribution-stats yang sudah ada tetap di bawah sini -->
+
+      <div class="distribution-stats">
+        <article class="distribution-stat stat-count">
+          <div class="distribution-stat-label">UMKM dengan skor</div>
+          <div class="distribution-stat-value" id="distribution-score-count">0</div>
+          <div class="distribution-stat-note">Evaluasi tervalidasi</div>
+        </article>
+        <article class="distribution-stat stat-average">
+          <div class="distribution-stat-label">Rata-rata skor</div>
+          <div class="distribution-stat-value" id="distribution-average">—</div>
+          <div class="distribution-stat-note">Dari skala 5,00</div>
+        </article>
+        <article class="distribution-stat stat-median">
+          <div class="distribution-stat-label">Median</div>
+          <div class="distribution-stat-value" id="distribution-median">—</div>
+          <div class="distribution-stat-note">Nilai tengah distribusi</div>
+        </article>
+        <article class="distribution-stat stat-outliers">
+          <div class="distribution-stat-label">Jumlah pencilan</div>
+          <div class="distribution-stat-value" id="distribution-outlier-count">0</div>
+          <div class="distribution-stat-note">Metode 1,5 × IQR</div>
+        </article>
+      </div>
+      <div class="empty-data-state" id="distribution-empty-state">Belum ada data kuesioner untuk menampilkan distribusi.</div>
+      <div class="dist-grid" id="distribution-content" hidden>
         <div>
           <div class="card" style="margin-bottom:16px">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
               <div>
                 <div class="chart-title">Frekuensi Distribusi Skor</div>
-                <div class="chart-sub">METODE NORMALITAS SHAPIRO-WILK: W=0.984</div>
+                <div class="chart-sub" id="distribution-subtitle">Ringkasan skor responden</div>
               </div>
               <div style="display:flex;gap:8px">
-                <span style="background:#dbeafe;color:var(--primary);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px" id="dist-populasi">Populasi: 428</span>
-                <span style="background:#d1fae5;color:var(--success);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">μ: 2.58</span>
+                <span style="background:#dbeafe;color:var(--primary);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px" id="dist-populasi">Populasi: 0</span>
+                <span style="background:#d1fae5;color:var(--success);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px" id="dist-mu">Rata-rata: —</span>
               </div>
             </div>
             <canvas id="histChart" height="160"></canvas>
           </div>
           <div class="box-card">
             <div class="box-header">
-              <div><div class="chart-title">Box-and-Whisker Summary</div><div class="chart-sub">Kalkulasi Quartil &amp; Median Nilai Klinis</div></div>
-              <div style="text-align:right"><div class="median-score" id="bw-median-score">2.58</div><div class="median-label">MEDIAN SCORE</div></div>
+              <div><div class="chart-title">Ringkasan Diagram Kotak dan Garis</div><div class="chart-sub">Perhitungan kuartil dan median skor</div></div>
+              <div style="text-align:right"><div class="median-score" id="bw-median-score">—</div><div class="median-label">SKOR MEDIAN</div></div>
             </div>
             <div class="boxplot-wrap">
               <div class="boxplot-line"></div>
@@ -467,24 +500,24 @@
               <div class="boxplot-dot" style="right:4%"></div>
             </div>
             <div class="quartile-grid">
-              <div class="quartile-item"><div class="quartile-label">Q1</div><div class="quartile-val" id="bw-q1">2.30</div></div>
-              <div class="quartile-item"><div class="quartile-label">Q2 (Median)</div><div class="quartile-val primary" id="bw-q2">2.58</div></div>
-              <div class="quartile-item"><div class="quartile-label">Q3</div><div class="quartile-val" id="bw-q3">2.89</div></div>
-              <div class="quartile-item"><div class="quartile-label">IQR Range</div><div class="quartile-val" id="bw-iqr">0.60</div></div>
+              <div class="quartile-item"><div class="quartile-label">Q1</div><div class="quartile-val" id="bw-q1">—</div></div>
+              <div class="quartile-item"><div class="quartile-label">Kuartil 2 (Median)</div><div class="quartile-val primary" id="bw-q2">—</div></div>
+              <div class="quartile-item"><div class="quartile-label">Q3</div><div class="quartile-val" id="bw-q3">—</div></div>
+              <div class="quartile-item"><div class="quartile-label">Jangkauan Antarkuartil (IQR)</div><div class="quartile-val" id="bw-iqr">—</div></div>
             </div>
           </div>
           <div class="insight-grid">
             <div class="insight-item">
               <div class="insight-icon" style="background:#d1fae5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-              <div><div class="insight-title">Distribusi Sehat</div><div class="insight-text">82% responden berada dalam range normal (2.0–3.5). Stabilitas data sangat tinggi.</div></div>
+              <div><div class="insight-title">Distribusi Sehat</div><div class="insight-text">Ringkasan muncul setelah kuesioner diisi.</div></div>
             </div>
             <div class="insight-item">
               <div class="insight-icon" style="background:#dbeafe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
-              <div><div class="insight-title">Median Meningkat</div><div class="insight-text">Terjadi kenaikan median sebesar 0.42 poin dibandingkan kuartal sebelumnya.</div></div>
+              <div><div class="insight-title">Perbandingan Median</div><div class="insight-text">Belum ada data untuk dibandingkan.</div></div>
             </div>
             <div class="insight-item">
               <div class="insight-icon" style="background:#fef3c7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
-              <div><div class="insight-title">Uji Signifikansi</div><div class="insight-text">Nilai p &lt; 0.001. Perbedaan antar kelompok usia signifikan secara statistik.</div></div>
+              <div><div class="insight-title">Ringkasan Data</div><div class="insight-text">Statistik akan tersedia setelah ada respons.</div></div>
             </div>
           </div>
         </div>
@@ -492,132 +525,123 @@
           <div class="outlier-card">
             <div class="outlier-header">
               <div class="outlier-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg></div>
-              <div><div id="outlier-count-title" style="font-size:13px;font-weight:700;color:var(--gray-800)">Data Outlier (3)</div><div style="font-size:11px;color:var(--gray-400)">Responden deviasi skor &gt; 2.5 SD</div></div>
+              <div><div id="outlier-count-title" style="font-size:13px;font-weight:700;color:var(--gray-800)">Data Pencilan (0)</div><div style="font-size:11px;color:var(--gray-400)">Pencilan dihitung dari data respons</div></div>
             </div>
             <table class="outlier-table">
-              <thead><tr><th>ID UMKM</th><th style="text-align:right">Z-SCORE</th></tr></thead>
+              <thead><tr><th>ID UMKM</th><th style="text-align:right">SKOR-Z</th></tr></thead>
               <tbody id="outlier-tbody">
-                <tr><td>#SH-15</td><td class="z-score">3.85</td></tr>
-                <tr><td>#SH-57</td><td class="z-score">3.82</td></tr>
-                <tr><td>#SH-94</td><td class="z-score">3.41</td></tr>
+                <tr><td colspan="2" style="text-align:center;color:#9ca3af;padding:10px;">Belum ada data untuk dihitung</td></tr>
               </tbody>
             </table>
-            <button class="btn-dark" style="margin-top:16px" onclick="showToast('Mengekspor data anomali...','success')">
+            <button class="btn-dark" style="margin-top:16px" onclick="showToast('Mengekspor data pencilan...','success')">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Export Mata Anomali (Cr V)
+              Ekspor Data Pencilan
             </button>
           </div>
         </div>
       </div>
-      <div class="page-footer"><div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
+      <div class="page-footer"><div>© 2026 TerasMatrix. Hak cipta dilindungi.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
     </div>
     <!-- END DISTRIBUTION -->
 
     <!-- COMPARISON PAGE -->
     <div class="page" id="page-comparison">
-      <div class="welcome-bar">
-        <div><h2>Selamat Datang, <span class="welcome-name">User</span>!</h2><p>Persentase kesehatan ekosistem UMKM hari ini.</p></div>
-      </div>
-      <div class="page-header-row" style="margin-bottom:16px">
-        <div class="page-header" style="margin-bottom:0"><h1>Perbandingan Data SiSEHAT</h1><p>Analisis komprehensif performa klinis UMKM berdasarkan indikator kesehatan operasional.</p></div>
+      <div class="page-header-row page-intro page-intro-row">
+        <div class="page-header" style="margin-bottom:0"><h1>Perbandingan UMKM</h1><p id="comparison-intro">Belum ada evaluasi tervalidasi dengan skor. Isi dan simpan Form Data terlebih dahulu.</p></div>
         <div style="display:flex;gap:10px;align-items:center">
-          <span style="font-size:12px;color:var(--gray-500)">📅 03 April 2023</span>
-          <button class="btn-export" onclick="exportData()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export Data</button>
+          <span style="font-size:12px;color:var(--gray-500)" id="comparison-period">Periode data</span>
+          <button class="btn-export" onclick="exportData()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Ekspor Data</button>
         </div>
       </div>
-      <div class="comparison-grid">
+      <div class="comparison-grid" id="comparison-content" hidden>
         <div class="factor-bar-card">
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Sumber Daya / INS (Institutional Resources)</div><div class="factor-row-sub">METABOLIC FACTOR</div></div><div class="factor-row-score red">1.79</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.30</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Sumber Daya / INS</div><div class="factor-row-sub">FAKTOR KELEMBAGAAN</div></div><div class="factor-row-score red">1.79</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.30</span></div>
             <div class="bar-track"><div class="bar-fill red" style="width:54%"></div></div>
           </div>
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Kepemimpinan / LDI (Leadership)</div><div class="factor-row-sub">CULTURE FACTOR</div></div><div class="factor-row-score">2.95</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.50</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Kepemimpinan / LDI</div><div class="factor-row-sub">FAKTOR BUDAYA</div></div><div class="factor-row-score">2.95</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.50</span></div>
             <div class="bar-track"><div class="bar-fill blue" style="width:84%"></div></div>
           </div>
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Proses / WEQ (Work Environment Quality)</div><div class="factor-row-sub">STRUCTURAL FACTOR</div></div><div class="factor-row-score">3.31</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.50</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Proses / WEQ</div><div class="factor-row-sub">FAKTOR STRUKTURAL</div></div><div class="factor-row-score">3.31</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.50</span></div>
             <div class="bar-track"><div class="bar-fill teal" style="width:94%"></div></div>
           </div>
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Budaya / OV (Organizational Values)</div><div class="factor-row-sub">STRATEGIC FACTOR</div></div><div class="factor-row-score">3.41</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.60</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Budaya / OV</div><div class="factor-row-sub">FAKTOR STRATEGIS</div></div><div class="factor-row-score">3.41</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.60</span></div>
             <div class="bar-track"><div class="bar-fill teal" style="width:95%"></div></div>
           </div>
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Inovasi / OPS (Operational Stability)</div><div class="factor-row-sub">EXECUTION FACTOR</div></div><div class="factor-row-score">2.38</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.20</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Inovasi / OPS</div><div class="factor-row-sub">FAKTOR PELAKSANAAN</div></div><div class="factor-row-score">2.38</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.20</span></div>
             <div class="bar-track"><div class="bar-fill blue" style="width:74%"></div></div>
           </div>
           <div class="factor-row">
-            <div class="factor-row-header"><div><div class="factor-row-name">Eksternal / ECT (Economic Connectivity)</div><div class="factor-row-sub">MARKET FACTOR</div></div><div class="factor-row-score red">1.80</div></div>
-            <div class="realization-label">Realization<span style="float:right;color:var(--gray-400)">Target: 3.00</span></div>
+            <div class="factor-row-header"><div><div class="factor-row-name">Eksternal / ECT</div><div class="factor-row-sub">FAKTOR PASAR</div></div><div class="factor-row-score red">1.80</div></div>
+            <div class="realization-label">Capaian<span style="float:right;color:var(--gray-400)">Sasaran: 3.00</span></div>
             <div class="bar-track"><div class="bar-fill red" style="width:60%"></div></div>
           </div>
         </div>
         <div>
           <div class="performer-card">
-            <div class="performer-badge badge-top">TOP PERFORMER ↑</div>
+            <div class="performer-badge badge-top">KINERJA TERBAIK ↑</div>
             <div class="performer-id" id="comp-top-id">UMKM ID 15</div>
             <div class="performer-score" id="comp-top-score">3.85<span> / 5.00</span></div>
-            <div class="performer-status status-excellent" id="comp-top-status">✓ Status: Excellent</div>
+            <div class="performer-status status-excellent" id="comp-top-status">✓ Status: Sangat Baik</div>
           </div>
           <div class="performer-card" style="border-left:4px solid var(--danger)">
-            <div class="performer-badge badge-critical-action">CRITICAL ACTION ▲</div>
-            <div class="performer-id" id="comp-crit-id">UMKM ID 94</div>
+            <div class="performer-badge badge-critical-action">TINDAKAN KRITIS ▲</div>
+            <div class="performer-id" id="comp-crit-id">UMKM ID 030</div>
             <div class="performer-score" id="comp-crit-score">1.57<span> / 5.00</span></div>
-            <div class="performer-status status-intervention" id="comp-crit-status">! Status: Intervention Required</div>
+            <div class="performer-status status-intervention" id="comp-crit-status">! Status: Perlu Intervensi</div>
           </div>
           <div class="gap-card">
-            <div class="gap-title">Analisis Kesenjangan (Gap Analysis)</div>
+            <div class="gap-title">Analisis Kesenjangan</div>
             <div class="gap-avg-label">Rata-rata Industri</div>
             <div class="gap-avg-val" id="comp-gap-avg">2.84</div>
             <div class="gap-bar-track"><div class="gap-bar-fill" id="comp-gap-bar"></div></div>
-            <div class="gap-text" id="comp-gap-text">Penyimpangan skor antara ID 15 dan ID 94 menunjukkan disparitas standar klinis sebesar 59.2%.</div>
+            <div class="gap-text" id="comp-gap-text">Kesenjangan skor dihitung dari UMKM dengan nilai tertinggi dan terendah dalam 30 responden.</div>
           </div>
         </div>
       </div>
-      <div class="comp-bottom-grid">
+      <div class="comp-bottom-grid" id="comparison-extra" hidden>
         <div class="dist-sektor">
           <div class="chart-title" style="margin-bottom:12px">Distribusi Sektor</div>
           <div style="display:flex;align-items:center;justify-content:center;height:120px">
-            <div style="text-align:center"><div style="width:100px;height:100px;border:12px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto"><div><div style="font-size:20px;font-weight:800">124</div><div style="font-size:10px;color:var(--gray-400)">TOTAL UNIT</div></div></div></div>
+            <div style="text-align:center"><div style="width:100px;height:100px;border:12px solid var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto"><div><div style="font-size:20px;font-weight:800" id="sektor-total-unit">0</div><div style="font-size:10px;color:var(--gray-400)">JUMLAH UNIT</div></div></div></div>
           </div>
-          <div style="display:flex;gap:16px;font-size:12px;color:var(--gray-500);margin-top:8px;justify-content:center">
-            <span><span style="color:var(--primary)">●</span> Pangan: 45%</span>
-            <span><span style="color:var(--success)">●</span> Kesehatan: 30%</span>
+          <div id="sektor-legend" style="display:flex;gap:16px;font-size:12px;color:var(--gray-500);margin-top:8px;justify-content:center">
+            <span><span style="color:var(--primary)">●</span> Memuat distribusi sektor...</span>
           </div>
         </div>
         <div class="dist-trend">
-          <div class="chart-title" style="margin-bottom:12px">↗ Trend</div>
+          <div class="chart-title" style="margin-bottom:12px">↗ Tren</div>
           <canvas id="trendChart" height="120"></canvas>
         </div>
         <div class="visual-audit">
-          <div class="visual-audit-title">Visual Audit Logs</div>
-          <div class="visual-audit-sub">Arsip komparasi visual unit</div>
+          <div class="visual-audit-title">Catatan Audit Visual</div>
+          <div class="visual-audit-sub">Arsip perbandingan visual unit</div>
           <div style="margin-top:12px;display:flex;gap:6px">
             <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.4)"></div>
             <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.3);margin-left:-6px"></div>
           </div>
-          <div class="visual-audit-badge">+12 Reviewer</div>
+          <div class="visual-audit-badge">Catatan visual tersedia setelah ada data</div>
         </div>
       </div>
-      <div class="page-footer"><div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
+      <div class="page-footer"><div>© 2026 TerasMatrix. Hak cipta dilindungi.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
     </div>
     <!-- END COMPARISON -->
 
     <!-- UMKM & RECOMMENDATIONS PAGE -->
     <div class="page" id="page-umkmrec">
-      <div class="welcome-bar">
-        <div><h2>Selamat Datang, <span class="welcome-name">User</span>!</h2><p>Persentase kesehatan ekosistem UMKM hari ini.</p></div>
-      </div>
-      <div class="page-header-row" style="margin-bottom:8px">
-        <div><h1>Detail Data UMKM</h1><p class="table-count" style="font-size:12px;color:var(--gray-500)">Menampilkan 1-6 dari <span id="rec-total-count">428</span> responden</p></div>
+      <div class="page-header-row page-intro page-intro-row">
+        <div class="page-header page-intro-copy"><h1>Detail Data UMKM</h1><p class="table-count page-intro-count">Menampilkan 0 dari <span id="rec-total-count">0</span> responden</p></div>
         <div style="display:flex;gap:10px">
-          <button class="btn-filter" onclick="toggleDropdown('filterDrop')" style="position:relative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Filter</button><div class="dropdown-menu" id="filterDrop" style="right:0;top:calc(100% + 8px)"><div class="dropdown-item" onclick="filterUmkmTable('semua')">🔍 Semua</div><div class="dropdown-item" onclick="filterUmkmTable('kuliner')">🍜 Kuliner</div><div class="dropdown-item" onclick="filterUmkmTable('kerajinan')">🎨 Kerajinan</div><div class="dropdown-item" onclick="filterUmkmTable('ritel')">🛒 Ritel</div><div class="dropdown-item" onclick="filterUmkmTable('kesehatan')">💊 Kesehatan</div></div>
+          <button class="btn-filter" onclick="toggleDropdown('filterDrop')" style="position:relative"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Saring</button><div class="dropdown-menu" id="filterDrop" style="right:0;top:calc(100% + 8px)"><div class="dropdown-item" onclick="filterUmkmTable('semua')">🔍 Semua</div><div class="dropdown-item" onclick="filterUmkmTable('kuliner')">🍜 Kuliner</div><div class="dropdown-item" onclick="filterUmkmTable('kerajinan')">🎨 Kerajinan</div><div class="dropdown-item" onclick="filterUmkmTable('ritel')">🛒 Ritel</div><div class="dropdown-item" onclick="filterUmkmTable('kesehatan')">💊 Kesehatan</div></div>
           <button class="btn-primary" onclick="navigate('formdata')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>+ Tambah Data</button>
         </div>
       </div>
@@ -626,25 +650,26 @@
           <table class="data-table">
             <thead><tr><th>ID UMKM</th><th>NAMA UMKM</th><th>LOKASI</th><th>SEKTOR</th><th>OMZET (RP)</th><th>SKOR KESEHATAN</th><th>FAKTOR UTAMA</th><th>REKOMENDASI</th></tr></thead>
             <tbody id="umkmTableBody">
-              <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--gray-400)">Memuat data...</td></tr>
+              <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--gray-500)">Belum ada data kuesioner.</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="pagination">
-          <div class="pagination-info" id="paginationInfo">Halaman 1 dari 5</div>
+        <div class="pagination" hidden>
+          <div class="pagination-info" id="paginationInfo">Halaman 1 dari 3</div>
           <div class="pagination-btns" id="paginationBtns">
             <button class="page-btn">‹</button>
           </div>
         </div>
       </div>
-      <div class="table-stats">
-        <div class="table-stat blue"><div class="table-stat-label">TOTAL RESPONDEN</div><div class="table-stat-val white" id="stat-total-rec">30</div><div class="table-stat-sub white">↑ +12% Bulan ini</div></div>
-        <div class="table-stat teal" style="border-left:none"><div class="table-stat-label dark">RERATA SKOR KESEHATAN</div><div class="table-stat-val teal-c" id="stat-avg-rec">76/100</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:76%;background:var(--success)"></div></div><div style="font-size:10px;color:var(--success);font-weight:700;margin-top:4px">PRECISE</div></div>
-        <div class="table-stat red" style="border-left:1px solid #fca5a5"><div class="table-stat-label dark">SEKTOR KRITIS</div><div class="table-stat-val red-c">Ritel &amp; Mikro</div><div class="intervention-label">▲ BUTUH INTERVENSI SEGERA</div></div>
+      <div class="table-stats" id="table-stats" hidden>
+        <div class="table-stat blue"><div class="table-stat-label">JUMLAH RESPONDEN</div><div class="table-stat-val white" id="stat-total-rec">0</div><div class="table-stat-sub white">Data yang ditampilkan</div></div>
+        <div class="table-stat teal" style="border-left:none"><div class="table-stat-label dark">RERATA SKOR KESEHATAN</div><div class="table-stat-val teal-c" id="stat-avg-rec">—</div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--success)"></div></div><div style="font-size:10px;color:var(--success);font-weight:700;margin-top:4px">—</div></div>
+        <div class="table-stat red" style="border-left:1px solid #fca5a5"><div class="table-stat-label dark">SEKTOR KRITIS</div><div class="table-stat-val red-c">—</div><div class="intervention-label">Belum tersedia</div></div>
       </div>
+      <div class="empty-data-state" id="recommendation-empty-state">Belum ada rekomendasi karena belum ada data kuesioner.</div>
 
       <!-- Intervensi Strategis -->
-      <div style="margin-top:24px">
+      <div style="margin-top:24px" id="recommendation-content" hidden>
         <div class="intervensi-header">
           <div class="page-header" style="margin-bottom:0"><h1>Intervensi Strategis</h1><p>Daftar tindakan prioritas yang disusun berdasarkan data terbaru.</p></div>
           <div class="intervensi-stats">
@@ -665,7 +690,7 @@
           </div>
         </div>
         <div class="pipa-header">
-          <div class="pipa-title">Pipa Tindakan Prioritas</div>
+          <div class="pipa-title">Daftar Tindakan Prioritas</div>
           <div class="pipa-toggle">
             <button class="pipa-btn active" onclick="filterPipa(this,'all')">Semua</button>
             <button class="pipa-btn" onclick="filterPipa(this,'high')">Hanya Tinggi</button>
@@ -674,50 +699,50 @@
         <div class="pipa-grid">
           <div class="pipa-card" data-priority="high">
             <div style="display:flex;justify-content:space-between;align-items:start"><span class="pipa-priority high">PRIORITAS TINGGI</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
-            <div class="pipa-title-text">Sesuaikan Titrasi INS</div>
-            <div class="pipa-desc">Sistem mendeteksi penurunan sensitivitas malam hari sebesar 15%. Kalibrasi segera dari unit dasar diperlukan.</div>
+            <div class="pipa-title-text">Sesuaikan Dukungan Sumber Daya</div>
+            <div class="pipa-desc">Sistem mendeteksi penurunan ketersediaan sumber daya sebesar 15%. Penyesuaian dukungan dasar perlu segera dilakukan.</div>
             <div class="pipa-footer"><div style="display:flex;gap:-4px"><div style="width:24px;height:24px;border-radius:50%;background:var(--primary);border:2px solid #fff"></div><div style="width:24px;height:24px;border-radius:50%;background:var(--success);border:2px solid #fff;margin-left:-6px"></div></div><span class="pipa-link" onclick="showProtokol('ins')">Lihat Protokol →</span></div>
           </div>
           <div class="pipa-card" data-priority="mid">
             <div style="display:flex;justify-content:space-between;align-items:start"><span class="pipa-priority mid">PRIORITAS SEDANG</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-            <div class="pipa-title-text">Penyelarasan Siklus ECT</div>
-            <div class="pipa-desc">Penyimpangan faktor sekunder terdeteksi dalam pelacakan ECT mingguan. Jadwalkan sesi penyelarasan untuk pemantauan fase 3.</div>
-            <div class="pipa-footer"><span class="pipa-eta">● ETA: 48h</span><span class="pipa-link" onclick="showProtokol('ect')">Lihat Protokol →</span></div>
+            <div class="pipa-title-text">Perkuat Konektivitas Eksternal</div>
+            <div class="pipa-desc">Perubahan pada faktor eksternal terdeteksi dari pemantauan mingguan. Jadwalkan peninjauan untuk memantau tindak lanjut.</div>
+            <div class="pipa-footer"><span class="pipa-eta">● Perkiraan: 48 jam</span><span class="pipa-link" onclick="showProtokol('ect')">Lihat Panduan →</span></div>
           </div>
           <div class="pipa-card" data-priority="maintain">
             <div style="display:flex;justify-content:space-between;align-items:start"><span class="pipa-priority maintain">PEMELIHARAAN</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray-300)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div class="pipa-title-text">Cek Sinkronisasi Biometrik</div>
-            <div class="pipa-desc">Validasi data periferal standar. Tidak ada ancaman langsung yang terdeteksi. Mempertahankan baseline klinis yang optimal.</div>
-            <div class="pipa-footer"><span class="pipa-validated" style="color:var(--success)">✓ Tervalidasi</span><span class="pipa-link" onclick="showProtokol('bio')">Lihat Protokol →</span></div>
+            <div class="pipa-title-text">Tinjau Kesesuaian Data</div>
+            <div class="pipa-desc">Validasi data pendukung secara berkala. Tidak ada masalah mendesak yang terdeteksi. Pertahankan kondisi usaha yang sudah baik.</div>
+            <div class="pipa-footer"><span class="pipa-validated" style="color:var(--success)">✓ Tervalidasi</span><span class="pipa-link" onclick="showProtokol('bio')">Lihat Panduan →</span></div>
           </div>
         </div>
         <div class="metrics-grid card" style="padding:0">
-          <div class="metric-item"><div class="metric-label">RATA-RATA WAKTU RESPON</div><div class="metric-val dark" id="rec-resp-time">14.2 Min</div></div>
+          <div class="metric-item"><div class="metric-label">RATA-RATA WAKTU TANGGAP</div><div class="metric-val dark" id="rec-resp-time">14,2 menit</div></div>
           <div class="metric-item"><div class="metric-label">TINGKAT KEPATUHAN</div><div class="metric-val success" id="rec-compliance">96.4%</div></div>
           <div class="metric-item"><div class="metric-label">KRITIS BELUM TERSELESAIKAN</div><div class="metric-val danger" id="rec-critical">2 Peringatan</div></div>
-          <div class="metric-item" style="border-right:none"><div class="metric-label">PEMINDAIAN TERJADWAL BERIKUTNYA</div><div class="metric-val dark" id="rec-next-scan">11:00 PM</div></div>
+          <div class="metric-item" style="border-right:none"><div class="metric-label">PEMANTAUAN BERIKUTNYA</div><div class="metric-val dark" id="rec-next-scan">23.00</div></div>
         </div>
       </div>
-      <div class="page-footer"><div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
+      <div class="page-footer"><div>© 2026 TerasMatrix. Hak cipta dilindungi.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
     </div>
     <!-- END UMKM & REC -->
 
     <!-- FORM DATA PAGE -->
     <div class="page" id="page-formdata">
-      <div class="welcome-bar">
-        <div><h2>Selamat Datang, <span class="welcome-name">User</span>!</h2><p>Persentase kesehatan ekosistem UMKM hari ini.</p></div>
+      <div class="welcome-bar page-intro">
+      <div><h1>Selamat datang, <span class="user-name"></span>!</h1><p>Kenali kondisi usaha. Tentukan langkah berikutnya.</p></div>
       </div>
-      <div class="page-header"><h1>Formulir Penilaian Klinis Baru</h1><p>Isi seluruh bagian penilaian 6 Faktor SiSEHAT agar hasil skor lebih akurat.</p></div>
+      <div class="page-header page-intro"><h1>Evaluasi Kesehatan Usaha</h1><p>Penilaian 3 faktor: Sumber Daya, Eksternal, dan Operasional. Skor kesehatan menjadi lengkap setelah karyawan mengisi 3 faktor lainnya.</p></div>
       <div class="form-grid">
         <div class="form-main" id="formMainContent">
           <!-- Sections injected by JS -->
         </div>
         <div>
           <div class="live-calc">
-            <div class="live-badge">LIVE CALCULATION</div>
+            <div class="live-badge">PERHITUNGAN LANGSUNG</div>
             <div id="calcRows"></div>
             <div class="health-category">
-              <div class="health-cat-label">OVERALL HEALTH CATEGORY</div>
+              <div class="health-cat-label">KATEGORI KESEHATAN KESELURUHAN</div>
               <div class="health-cat-val" id="health-cat">--</div>
               <div class="health-cat-sub" id="health-sub"></div>
             </div>
@@ -725,16 +750,16 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
               Simpan Evaluasi
             </button>
-            <button class="btn-secondary" style="width:100%;justify-content:center" onclick="showToast('Membuka pratinjau draft...')">Pratinjau Draft</button>
+            <button class="btn-secondary" style="width:100%;justify-content:center" onclick="openPreviewModal()">Pratinjau Isian</button>
           </div>
           <div class="guide-card">
             <div class="guide-title">Panduan Pengisian</div>
             <div class="guide-text">Pastikan data yang diinput sesuai dengan bukti fisik di lapangan untuk keperluan verifikasi akreditasi mendatang.</div>
-            <span class="guide-link" onclick="showToast('Mengunduh panduan PDF...','success')">DOWNLOAD PDF PANDUAN ↗</span>
+            <span class="guide-link" onclick="showToast('Fitur unduh panduan PDF akan segera tersedia.','success')">UNDUH PANDUAN PDF ↗</span>
           </div>
         </div>
       </div>
-      <div class="page-footer"><div>© 2026 SiSEHAT Clinical Insights System. All rights reserved.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
+      <div class="page-footer"><div>© 2026 TerasMatrix. Hak cipta dilindungi.</div><div class="footer-links"><span class="footer-link">Pusat Bantuan</span><span class="footer-link">Kebijakan Privasi</span></div></div>
     </div>
 
     <!-- NOTIFICATIONS PAGE -->
@@ -754,10 +779,10 @@
 
       <div class="notif-hero-grid">
         <div class="notif-welcome-card">
-          <h3 id="notif-halo">Halo, User!</h3>
-          <p>Ada <span id="notif-badge-count-text">3</span> pembaruan penting di TerasMatrix yang perlu Anda tinjau hari ini.</p>
+          <h3 id="notif-halo">Halo, Pengguna!</h3>
+          <p>Ada <span id="notif-badge-count-text">0</span> pembaruan untuk ditinjau.</p>
           <div class="notif-badge-big">
-            <div class="num" id="notif-badge-num">03</div>
+            <div class="num" id="notif-badge-num">00</div>
             <div class="lbl">PESAN BARU</div>
           </div>
         </div>
@@ -779,14 +804,14 @@
       <div class="notif-footer-grid">
         <div class="notif-insight-card">
           <div class="notif-insight-content">
-            <div class="notif-insight-lbl">INSIGHT LABORATORIUM</div>
-            <div class="notif-insight-title">Peningkatan Efisiensi Batch 12%</div>
+            <div class="notif-insight-lbl">WAWASAN LABORATORIUM</div>
+            <div class="notif-insight-title">Belum ada data untuk dianalisis</div>
           </div>
         </div>
         <div class="notif-ai-card">
           <svg class="notif-ai-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/><path d="M19 19l2 1 1 2-1-2-2-1 2 1z"/><path d="M5 5l1 2 2 1-2-1-1-2-1 2 2 1z"/></svg>
-          <div class="notif-ai-title">Kurasi AI Aktif</div>
-          <div class="notif-ai-desc">Sistem kami baru saja mengelompokkan 12 laporan terkait untuk menghemat waktu peninjauan Anda.</div>
+          <div class="notif-ai-title">Pengelompokan Otomatis Aktif</div>
+          <div class="notif-ai-desc">Wawasan akan muncul setelah ada kuesioner yang diisi.</div>
           <a href="#" class="notif-ai-link" onclick="navigate('home')">Lihat Rekomendasi <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -845,7 +870,7 @@
             <div class="help-card-icon c-red">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/><path d="M19 19l2 1 1 2-1-2-2-1 2 1z"/><path d="M5 5l1 2 2 1-2-1-1-2-1 2 2 1z"/></svg>
             </div>
-            <h4>API &amp; Integrasi</h4>
+            <h4>Antarmuka Pemrograman &amp; Integrasi</h4>
             <p>Integrasikan data dengan aman ke sistem lain melalui API kami.</p>
           </div>
         </div>
@@ -856,9 +881,9 @@
           <div class="help-bottom-text">
             <h3>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-              Memahami Box Plot
+              Memahami Diagram Kotak dan Garis
             </h3>
-            <p>Box plot adalah alat visual yang kuat untuk mengilustrasikan distribusi data melalui kuartil. Dalam riset medis, ini membantu mengidentifikasi variansi pasien dan outlier klinis secara cepat.</p>
+            <p>Diagram kotak dan garis membantu menggambarkan sebaran data melalui kuartil. Diagram ini juga memudahkan identifikasi variasi data dan pencilan.</p>
           </div>
           <div class="help-bottom-image">
             <div class="placeholder-chart" style="width:100%;height:100%;background:#1e293b;position:relative;overflow:hidden;">
@@ -885,12 +910,7 @@
 
     <!-- PROFILE PAGE -->
     <div class="page" id="page-profile">
-      <div class="welcome-bar">
-        <div>
-          <h2>Selamat Datang, <span class="welcome-name">User</span>!</h2>
-          <p>Kelola informasi profil dan akun Anda.</p>
-        </div>
-      </div>
+      <div class="page-header page-intro"><h1>Profil Saya</h1><p>Kelola informasi profil dan akun Anda.</p></div>
       <div id="profile-content" style="padding-bottom:32px">
         <div style="text-align:center;padding:48px;color:var(--gray-400)">Memuat profil...</div>
       </div>
@@ -906,22 +926,24 @@
 <!-- MODALS -->
 <div class="modal-backdrop" id="logoutModal">
   <div class="modal">
-    <div class="modal-header"><div class="modal-title">Konfirmasi Logout</div><button class="modal-close" onclick="hideModal('logoutModal')">✕</button></div>
+    <div class="modal-header"><div class="modal-title">Konfirmasi Keluar</div><button class="modal-close" onclick="hideModal('logoutModal')">✕</button></div>
     <div class="modal-body">Apakah Anda yakin ingin keluar dari sistem? Semua perubahan yang belum disimpan akan hilang.</div>
-    <div class="modal-footer"><button class="btn-secondary" onclick="hideModal('logoutModal')">Batal</button><button class="btn-primary" onclick="hideModal('logoutModal');setTimeout(()=>showView('logout'),300)">Logout</button></div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="hideModal('logoutModal')">Batal</button><button class="btn-primary" onclick="hideModal('logoutModal');setTimeout(()=>showView('logout'),300)">Keluar</button></div>
   </div>
 </div>
 <div class="modal-backdrop" id="saveModal">
   <div class="modal">
-    <div class="modal-header"><div class="modal-title">✓ Evaluasi Tersimpan</div><button class="modal-close" onclick="hideModal('saveModal')">✕</button></div>
-    <div class="modal-body">Data penilaian UMKM berhasil disimpan ke sistem. Skor kesehatan telah diperbarui dan tersedia di dashboard utama.</div>
-    <div class="modal-footer"><button class="btn-secondary" onclick="hideModal('saveModal')">Tutup</button><button class="btn-primary" onclick="navigate('home');hideModal('saveModal')">Lihat Dashboard</button></div>
+    <div class="modal-header"><div class="modal-title">✓ Penilaian Tersimpan</div><button class="modal-close" onclick="hideModal('saveModal')">✕</button></div>
+    <div class="modal-body">Data penilaian UMKM berhasil disimpan ke sistem. Skor kesehatan telah diperbarui dan tersedia di dasbor utama.</div>
+    <div class="modal-footer"><button class="btn-secondary" onclick="hideModal('saveModal')">Tutup</button><button class="btn-primary" onclick="navigate('home');hideModal('saveModal')">Lihat Dasbor</button></div>
   </div>
 </div>
 
 <!-- TOAST -->
 <div id="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span id="toastMsg">Berhasil</span></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-config.js"></script>
 <script src="js/api.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/form.js"></script>
